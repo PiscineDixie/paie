@@ -1,0 +1,34 @@
+
+<%= form_for(@feuille) do |f| %>
+
+ <%= f.error_messages %>
+  
+  <%= render :partial => '/shared/activites' %>
+  <p /><p />
+  <p>Entrez les heures travaillées dans le format: &lt;act 1&gt;-&lt;heure de départ&gt;-&lt;durée&gt;, &lt;act 2&gt;-&lt;heure de départ&gt;-&lt;durée&gt;.</p>
+  <p>Utilisez la notation en minutes (e.g., 20:45)
+  et non pas la notation décimale (e.g., 20.75) pour exprimer le début et la durée d'une activité.</p>
+  <p>Exemples:</p>
+  <ul>
+  <li>Water polo à 14:00 pendant 1:30: WP-14-1:30</li>
+  <li>Cours de natation de 9:30 à 11:45: LN-9:30-2:15</li>
+  </ul>
+  
+  <!-- les deux champs deja determines -->
+  <%= hidden_field_tag('feuille[employe_id]', @feuille.employe_id) -%>
+  <%= hidden_field_tag('feuille[periode]', @feuille.periode) -%>
+
+  <table>
+    <% @feuille.jours.each do |i, j| %>
+      <tr>
+        <td><%= (@feuille.debut + i.to_i).strftime('%a') %> <%= @feuille.debut + i.to_i %></td>
+        <td><%= text_field_tag('feuille[jours['+i+']]', j, :size => 100)%></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <p>
+    <%= f.submit "Enregistrer" %>
+  </p>
+<% end %>
+

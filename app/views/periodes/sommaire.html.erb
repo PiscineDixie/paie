@@ -1,0 +1,39 @@
+<h1>Période de paie du <%= @periode.debut -%></h1>
+
+<table>
+  <tr><th>Chèque</th><th>Nom</th><th>Net</th><th>Brut</th><th>Remb. Dép.</th><th>Aut. Gain</th><th>AE</th><th>RQAP</th><th>RRQ</th><th>Imp Fed</th><th>Imp Prov</th></tr>
+    <% for @paie in @periode.paies %>
+     <% if @paie.total > 0 %>
+      <tr>
+        <td> <%= @paie.cheque_no %></td>
+        <td> <%= @paie.nom_employe %></td>
+        <td align="right"><%= number_with_precision(@paie.net, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.brut, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.remb_depense, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.autre_gain_imposable, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.ae, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.rqap, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.rrq, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.impot_fed, :precision => 2) %></td>
+        <td align="right"><%= number_with_precision(@paie.impot_prov, :precision => 2) %></td>
+      </tr>
+     <% end %>
+    <% end %>
+
+  <tr>
+    <td><b>Totaux:</b></td>
+    <td/>
+    <td align="right"><%= number_with_precision(@periode.net_total, :precision => 2)%></td>
+    <td align="right"><%= number_with_precision(@periode.brut_total, :precision => 2)%></td>
+    <td align="right"><%= number_with_precision(@periode.remb_depense_total, :precision => 2)%></td>
+    <td align="right"><%= number_with_precision(@periode.autre_gain_imposable_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@periode.ae_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@periode.rqap_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@periode.rrq_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@periode.impot_fed_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@periode.impot_prov_employe_total, :precision => 2) %></td>
+  </tr>
+</table>
+
+<%= render :partial => 'totaux', :object => @periode %>
+

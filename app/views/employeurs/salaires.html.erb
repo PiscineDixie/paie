@@ -1,0 +1,43 @@
+<!-- Code pour generer le rapport des salaires -->
+<!-- Les variables sont:
+     @debut, @fin: Date du debut et de la fin du rapport
+     @employeur
+-->
+
+<h1>Rapports des salaires du <%= @debut -%> au <%= @fin -%></h1>
+
+<table>
+  <tr>
+    <th>Nom</th>
+    <th>Salaire</th>
+    <th>Heures</th>
+    <th>Brut</th>
+    <th>Net</th>
+    <th>Impôt Féd</th>
+    <th>Impôt Prov</th>
+    <th>RRQ</th>
+    <th>AE</th>
+    <th>RQAP</th>
+  </tr>
+  
+<% Employe.all.each do | empl | %>
+  <% if empl.paies_range(@debut, @fin, :brut) > 0 %>
+    <%= render :partial => 'salaires', :object => empl, :locals => {:debut => @debut, :fin => @fin} %>
+  <% end %>
+<% end %>
+
+  <tr>
+    <td>Totaux:</td>
+    <td></td>
+    <td align="right"><%= number_with_precision(@employeur.heures_range(@debut, @fin+1), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :brut), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :net), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :impot_fed), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :impot_prov), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :rrq), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :ae), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :rqap), :precision => 2) %></td>
+  </tr>
+
+</table>
+

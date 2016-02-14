@@ -1,0 +1,31 @@
+<h1>Liste des périodes de paie</h1>
+
+<table>
+  <tr>
+    <th>Début</th>
+  </tr>
+
+<% for periode in @periodes %>
+  <tr>
+    <td><%= periode.debut %></td>
+    <% if periode.new_record? %>
+      <td><%= button_to 'Créer', periodes_path(params: {debut: periode.debut}) %></td>
+    <% else %>
+      <td><%= link_to 'Afficher', periode %></td>
+       <% unless periode.locked %>
+        <td><%= link_to 'Modifier', edit_periode_path(periode) %></td>
+        <td><%= link_to 'Enlever', periode, :confirm => 'Etes-vous certain?', :method => :delete %></td>
+      <% end %>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% ans = Periode.annees %>
+<% if !ans.empty? %>
+  <% ans.each do | an |%>
+    <%= link_to an, :controller => 'periodes', :action => 'annees' , :an => an %> | 
+  <% end %>
+<% end %>

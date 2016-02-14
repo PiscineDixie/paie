@@ -1,0 +1,11 @@
+<table><tr>
+  <% idx = 0 %>
+  <% Activite::CodeActivites.sort.each do | act | %>
+    <% if idx != 0 and idx.modulo(4) == 0 %>
+      </tr><tr>
+    <% end %>
+    <td><%= act[0] -%></td><td><%= act[1] -%></td>
+    <% idx = idx + 1 %>
+  <% end %>
+</tr></table>
+

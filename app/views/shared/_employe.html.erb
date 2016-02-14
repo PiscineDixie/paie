@@ -1,0 +1,101 @@
+<!-- Partial pour afficher le  profil d'un employe. L'objet est de type Employe -->
+
+<p>
+  <label>NAS:</label>
+  <%= employe.nas %>
+</p>
+
+<p>
+  <label>Adresse:</label>
+  <%= employe.adresse1 %>
+</p>
+
+<p>
+  <label>Adresse:</label>
+  <%= employe.adresse2 %>
+</p>
+
+<p>
+  <label>Adresse:</label>
+  <%= employe.adresse3 %>
+</p>
+
+<p>
+  <label>Courriel:</label>
+  <%= employe.courriel %>
+</p>
+
+<p>
+  <label>Expédié sommaire?</label>
+  <%= employe.courriel_sommaire == true ? 'oui' : 'non' %>
+</p>
+
+<p>
+  <label>Date de naissance:</label>
+  <%= employe.naissance %>
+</p>
+
+<p>
+  <label>Etat:</label>
+  <%= employe.etat %>
+</p>
+
+<p>
+  <label>Salaire Horaire:</label>
+  <%= number_with_precision(employe.salaire_horaire, :precision => 2) %>
+</p>
+
+<p>
+  <label>Exempté d'impôt:</label>
+  <%= employe.exempte_impot == true ? 'oui' : 'non' %>
+</p>
+
+<p>
+  <label>Montant exemption impôt fédéral:</label>
+  <%= number_with_precision(employe.exemption_fed, :precision => 0) %>
+</p>
+
+<p>
+  <label>Montant exemption impôt provincial:</label>
+  <%= number_with_precision(employe.exemption_prov, :precision => 0) %>
+</p>
+
+<p>
+  <label>Total heures annuel:</label>
+  <%= employe.heures_annuel %>
+</p
+
+<p>
+  <label>Gains bruts annuel:</label>
+  <%= number_with_precision(employe.gains_brut_annuel, :precision => 2) %>
+</p
+
+<p>
+  <label>Gains nets annuel:</label>
+  <%= number_with_precision(employe.gains_net_annuel, :precision => 2) %>
+</p
+
+<p>
+  <label>Impôt fédéral annuel:</label>
+  <%= number_with_precision(employe.impot_federal_annuel, :precision => 2) %>
+</p
+
+<p>
+  <label>Impôt provincial annuel:</label>
+  <%= number_with_precision(employe.impot_prov_annuel, :precision => 2) %>
+</p
+
+<p>
+  <label>Assurance-emploi annuel:</label>
+  <%= number_with_precision(employe.ae_annuel, :precision => 2) %>
+</p
+
+<p>
+  <label>RRQ annuel:</label>
+  <%= number_with_precision(employe.rrq_annuel, :precision => 2) %>
+</p
+
+<p>
+  <label>RQAP annuel:</label>
+  <%= number_with_precision(employe.rqap_annuel, :precision => 2) %>
+</p

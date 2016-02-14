@@ -1,0 +1,35 @@
+<h1>Listes des employés</h1>
+
+<table>
+  <tr>
+    <th></td>
+    <th>Nom</th>
+    <th>Prenom</th>
+    <th>Etat</th>
+    <th>Courriel</th>
+    <th>NAS</th>
+    <th>Salaire</th>
+  </tr>
+
+<% idx = 1 %>
+<% for employe in @employes %>
+  <tr>
+    <td><%= idx.to_s %></td>
+    <td><%=h employe.nom %></td>
+    <td><%=h employe.prenom %></td>
+    <td><%=h employe.etat %></td>
+    <td><%=h employe.courriel %></td>
+    <td><%=h employe.nas %></td>
+    <td><%=h number_with_precision(employe.salaire_horaire, :precision => 2) %></td>
+    <td><%= link_to 'Afficher', employe %></td>
+    <td><%= link_to 'Modifier', edit_employe_path(employe) %></td>
+    <td><%= link_to 'Enlever', employe, :confirm => 'Etes-vous certain?', :method => :delete %></td>
+  </tr>
+  <% idx = idx + 1 %>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Ajouter un employé', new_employe_path %> |
+<%= link_to 'Inactifs', inactifs_employes_path %>

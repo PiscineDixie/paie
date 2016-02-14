@@ -1,0 +1,8 @@
+<!-- Ceci est le partial pour imprimer le T4 d'un employe. Pas termine -->
+
+<% unless t4.gains_brut_annuel(@annee) == 0 %>
+  <div id="feuille">
+    <div id="t4-1"><%= render :partial => 't4s', :object => t4 %></div>
+    <div id="t4-2"><%= render :partial => 't4s', :object => t4 %></div>
+  </div>
+<% end %>

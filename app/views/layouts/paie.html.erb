@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Paie <%= controller.action_name %></title>
+  <%= stylesheet_link_tag    "paie", :media => "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <script src="//apis.google.com/js/client:platform.js"></script>
+  <%= csrf_meta_tags %>
+</head>
+
+<body">
+  
+  <div id="banner">
+    <%= image_tag("logo112x87.png") %>
+    <%= @page_title || "Feuilles de Temps et Paie"%>
+  </div>
+  
+  <div id="columns">
+    <div id="side">
+      <% if session[:user] %>
+        <p>
+        <%= link_to "Logout " + User.sessionUserId(session[:user]), signout_path, id: "sign_out" %>
+        </p>
+    
+        <% if !User.hasAdminPriviledge(session[:user]) %>
+          <p>
+          <%= link_to "Home ", controller: 'auto' %>
+          </p>
+    
+        <% else %>
+          <p>
+          <%= link_to "Feuilles de temps", :controller => '/feuille_groupes' %>
+          </p>
+          <p>
+          <%= link_to  "Périodes de paie",    :controller => '/periodes' %>
+          </p>
+          <p>
+          <%= link_to  "Employés",    :controller => '/employes' %>
+          </p>
+    	  
+      	  <% if Employeur.instance %>
+              <p>
+              <%= link_to  "Employeur",    :controller => '/employeurs', :action => 'show', :id => Employeur.instance.id %>
+              </p>
+      	  <% else%>
+              <p>
+              <%= link_to  "Employeur",    :controller => '/employeurs', :action => 'new' %>
+              </p>
+            <% end %>
+    	  
+          <p>
+          <%= link_to  "Rapports",    :controller => '/rapports' %>
+          </p>
+          
+      	  <% if ConstantePaie.instance %>
+              <p>
+              <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'show', :id => ConstantePaie.instance.id %>
+              </p>
+      	  <% else %>
+              <p>
+              <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'new' %>
+              </p>
+          <% end %>
+          
+          <p>
+          <%= link_to  "Usagers",    :controller => '/users' %>
+          </p>
+          
+          <p>
+          <%= link_to  "Instructions",  instructions_url %>
+          </p>
+        <% end %>
+      <% elsif User.count.zero? %>
+        <p>
+        <%= link_to  "Usagers",    :controller => '/users' %>
+        </p>
+      <% else %>
+        <p>
+        <a href="" id="facebook_signin">Login avec Facebook</a>
+        </p>
+        <p>
+        <a href="" id="google_signin">Login avec Google</a>
+        </p>
+      <% end %>
+   </div>
+    
+    <div id="main">
+      <% if flash[:notice] -%>
+        <div id="notice"><%= flash[:notice] %></div>
+      <% end -%>
+
+      <%= yield  %>
+    </div>
+    
+  </div>
+</body>
+</html>

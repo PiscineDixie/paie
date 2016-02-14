@@ -1,0 +1,15 @@
+<!-- Afficher le contenu de l'objet @fgSH, une instance de FeuilleGroupeSommaireHeure
+     et de l'objet @ra, une instance de RapportActivite
+-->
+<h1>Sommaire par heure pour la période du <%= @fgSH.debut %></h1>
+
+<%= render :partial => 'shared/activites', :object => @fgSH %>
+<br/>
+
+<%= render :partial => 'shared/matrice_heures', :object => @fgSH %>
+<br />
+
+<%= render :partial => 'shared/rapport_heures', :object => @ra %>
+<br />
+
+<%= link_to 'Retour', { :action => "show", :id => @feuille_groupe.debut } %>

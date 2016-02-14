@@ -1,0 +1,28 @@
+<%
+  #
+  # Le stub d'un cheque comme une table PDF
+  #
+  data = 
+    [ [ "", "", "", "Période", "Annuel" ],
+      ["Nom:", stub.prenom_nom,  
+      "Heures", number_with_precision(stub.heures, :precision => 2), number_with_precision(stub.employe.heures_annuel, :precision => 2)],
+     ["Début de période:", stub.periode_debut,
+      "Brut", number_with_precision(stub.brut, :precision => 2), number_with_precision(stub.employe.gains_brut_annuel, :precision => 2)],
+     ["Fin de période:", stub.periode_fin,
+      "Vacances", number_with_precision(stub.vacances, :precision => 2), number_with_precision(stub.employe.gains_vacances_annuel, :precision => 2)],
+     ["Numéro de chèque:", stub.cheque_no,
+      "R.R.Q", number_with_precision(stub.rrq, :precision => 2), number_with_precision(stub.employe.rrq_annuel, :precision => 2)],
+     ["Salaire horaire:", number_with_precision(stub.employe.salaire_horaire, :precision => 2),
+      "Ass. Emploi", number_with_precision(stub.ae, :precision => 2), number_with_precision(stub.employe.ae_annuel, :precision => 2)],
+     ["Autre gain:", number_with_precision(stub.autre_gain_imposable, :precision => 2),
+      "R.Q.A.P.", number_with_precision(stub.rqap, :precision => 2), number_with_precision(stub.employe.rqap_annuel, :precision => 2)],
+     ["Ajust. Heures:", number_with_precision(stub.ajustement_heures, :precision => 2),
+      "Imp. Féd.", number_with_precision(stub.impot_fed, :precision => 2), number_with_precision(stub.employe.impot_federal_annuel, :precision => 2)],
+     ["Remb. Dépenses:", number_with_precision(stub.remb_depense, :precision => 2),
+      "Imp. Prov.", number_with_precision(stub.impot_prov, :precision => 2), number_with_precision(stub.employe.impot_prov_annuel, :precision => 2)],
+     ["Note:", stub.note,
+      "Net", number_with_precision(stub.net, :precision => 2), number_with_precision(stub.employe.gains_net_annuel, :precision => 2)]
+    ]
+
+  doc.table data, :column_widths => { 0 => 120, 1 => 130, 2 => 60, 3 => 70, 4 => 70 }
+%>

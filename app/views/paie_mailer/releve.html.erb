@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+   <h3>Relevé de paie pour la période du <%= @paie.periode_debut %> au <%= @paie.periode_fin %></h3>
+   <p>Le montant de <%= number_with_precision(@paie.total, :precision => 2) %> sera déposé dans votre compte bancaire cette semaine.
+   <% if @paie.remb_depense != 0 %>
+     Ce montant inclus un remboursement de dépenses de <%= number_with_precision(@paie.remb_depense, :precision => 2) %>.
+   <% end %>
+   </p>
+   <p/>
+   <h4>Détails de la paie</h4>
+   <table>
+      <tr>
+       <th></th>
+       <th style="text-align:right;"><div style="width: 100px">Période</div></th>
+       <th style="text-align:right;"><div style="width: 100px">Année</div></th>
+      </tr>
+      
+      <tr>
+        <td>Salaire horaire</td>
+        <td style="text-align:right;"><%= number_with_precision(@paie.employe.salaire_horaire, :precision => 2) %></td>
+        <td/>
+      </tr>
+      
+      <tr>
+       <td>Heures travaillées</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.heures, :precision => 2) %></td> 
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe_heures_upto, :precision => 2) %></td>
+      </tr>
+
+      <tr>
+       <td>Ajustement aux heures</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.ajustement_heures, :precision => 2) %></td>
+       <td></td>
+      </tr>
+      
+      <tr><th style="padding-top:2em;">Revenus</th><td/><td/></tr>
+      <tr>
+       <td>Salaire brut</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.brut - @paie.vacances - @paie.autre_gain_imposable, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.gains_brut_annuel - @paie.employe.gains_vacances_annuel, :precision => 2) %></td>
+      </tr>
+      
+      <tr>
+       <td>Paie de vacances</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.vacances, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.gains_vacances_annuel, :precision => 2) %></td>
+      </tr>
+            
+      <tr>
+       <td>Autres gains</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.autre_gain_imposable, :precision => 2) %></td>
+       <td></td>
+      </tr>
+            
+      <tr>
+       <td>Total</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.brut, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.gains_brut_annuel, :precision => 2) %></td>
+      </tr>
+
+      <tr><th style="padding-top:2em;">Déductions</th><td/><td/></tr>
+      
+      <tr>
+       <td>R.R.Q</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.rrq, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.rrq_annuel, :precision => 2) %></td>
+      </tr>
+      
+      <tr>
+       <td>Assurance-emploi</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.ae, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.ae_annuel, :precision => 2) %></td>
+      </tr>
+      
+      <tr>
+       <td>R.Q.A.P.</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.rqap, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.rqap_annuel, :precision => 2) %></td>
+      </tr>
+      
+      <tr>
+       <td>Impôt fédéral</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.impot_fed, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.impot_federal_annuel, :precision => 2) %></td>
+      </tr>
+      
+      <tr>
+       <td>Impôt du Québec</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.impot_prov, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.impot_prov_annuel, :precision => 2) %></td>
+      </tr>
+      
+      <tr>
+       <td>Total</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.tot_deductions, :precision => 2) %></td>
+       <td/>
+      </tr>
+      
+     <tr><td style="padding-top:1em;"/></tr>
+     <tr>
+       <td style="font-weight:bold;">Paie net</td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.net, :precision => 2) %></td>
+       <td style="text-align:right;"><%= number_with_precision(@paie.employe.gains_net_annuel, :precision => 2) %></td>
+     </tr>
+  </table>
+     
+  <% if @paie.remb_depense != 0 %>
+    <div style="margin-top:3em;">
+      <h4>Remboursement de dépenses ou d'avance</h4>
+      <p>Montant: <%= number_with_precision(@paie.remb_depense, :precision => 2) %> <br/>
+      Explication: <%= @paie.note %></p>
+    </div>
+  <% end %>
+
+  </body>
+</html>

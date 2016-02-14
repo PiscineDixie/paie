@@ -1,0 +1,22 @@
+<!-- Partial pour afficher le nombre d'heures travaillees pour chaque activite
+     L'objet est de type RapportActivites -->
+
+<table border="1">
+  <tr>
+    <th>Code d'Activité</th>
+    <th>Description</th>
+    <th>Nombres d'Heures</th>
+  </tr>
+  <% rapport_heures.data.each do | cdh | %>
+    <tr>
+      <td><%= cdh[0] %></td>
+      <td><%= cdh[1] %></td>
+      <td><%= cdh[2] %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td></th>
+    <td>Total</th>
+    <td><%= rapport_heures.total %></th>
+  </tr>
+</table>

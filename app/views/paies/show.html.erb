@@ -1,0 +1,78 @@
+<h1>Détails d'une Paie</h1>
+
+<p>
+  <b>Nom:</b>
+  <%= @paie.nom_employe %>
+</p>
+
+<p>
+  <b>Chèque no.:</b>
+  <%= @paie.cheque_no %>
+</p>
+
+<p>
+  <b>Remboursement de dépenses:</b>
+  <%= number_with_precision(@paie.remb_depense, :precision => 2) %>
+</p>
+
+<p>
+  <b>Ajustement d'heures:</b>
+  <%= number_with_precision(@paie.ajustement_heures, :precision => 2) %>
+</p>
+
+<p>
+  <b>Autre gain imposable:</b>
+  <%= number_with_precision(@paie.autre_gain_imposable, :precision => 2) %>
+</p>
+
+<p>
+  <b>Vacances:</b>
+  <%= number_with_precision(@paie.vacances, :precision => 2) %>
+</p>
+
+<p>
+  <b>Salaire brut:</b>
+  <%= number_with_precision(@paie.brut, :precision => 2) %>
+</p>
+
+<p>
+  <b>Salaire net:</b>
+  <%= number_with_precision(@paie.net, :precision => 2) %>
+</p>
+
+<p>
+  <b>Déduction A-E:</b>
+  <%= number_with_precision(@paie.ae, :precision => 2) %>
+</p>
+
+<p>
+  <b>Déduction RRQ:</b>
+  <%= number_with_precision(@paie.rrq, :precision => 2) %>
+</p>
+
+<p>
+  <b>Déduction RQAP:</b>
+  <%= number_with_precision(@paie.rqap, :precision => 2) %>
+</p>
+
+<p>
+  <b>Impôt fédéral:</b>
+  <%= number_with_precision(@paie.impot_fed, :precision => 2) %>
+</p>
+
+<p>
+  <b>Impôt provincial:</b>
+  <%= number_with_precision(@paie.impot_prov, :precision => 2) %>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%= @paie.note %>
+</p>
+
+<%= link_to 'Expédier courriel', releveCourriel_periode_paie_path(@periode,@paie), method: :post %> |
+<% if @paie.cheque_no || 0 > 0 %>
+  <%= link_to 'Impression du chèque', {:controller => 'periodes', :action => 'cheques', :id => @paie.periode_id, :format => :pdf, :paie_id => @paie.id} %> |
+<% end %>
+<%= link_to 'Back', :back %>
+

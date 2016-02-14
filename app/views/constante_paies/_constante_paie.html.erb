@@ -1,0 +1,91 @@
+
+<%= form_for(@constante_paie) do |f| %>
+
+ <%= f.error_messages %>
+
+<h2>Impôt fédéral</h2>
+<table>
+  <tr><th>Revenu Annuel</th><th>Taux R</th><th>Cte K</th></tr>
+  <tr>
+    <td>jusqu'à <%=f.text_field :impFedI1, :size => 6 %></td>
+    <td><%= f.text_field :impFedR1, :size => 5 %></td>
+    <td><%= f.text_field :impFedK1, :size => 5 %></td>
+  </tr>
+  <tr>
+    <td>jusqu'à <%= f.text_field :impFedI2, :size => 6 %></td>
+    <td><%=  f.text_field :impFedR2, :size => 5 %></td>
+    <td><%=  f.text_field :impFedK2, :size => 5 %></td>
+  </tr>
+  <tr>
+    <td>jusqu'à <%= f.text_field :impFedI3, :size => 6 %></td>
+    <td><%= f.text_field :impFedR3, :size => 5 %></td>
+    <td><%= f.text_field :impFedK3, :size => 5 %></td>
+  </tr>
+  <tr>
+    <td>et plus</td>
+    <td><%= f.text_field :impFedR4, :size => 5 %></td>
+    <td><%= f.text_field :impFedK4, :size => 5 %></td>
+  </tr>
+</table>
+<b>Déduction de base: </b><%= f.text_field :deductionBaseFed, :size => 5 %><br/>
+
+<h2>Impôt provincial</h2>
+<table>
+  <tr><th>Revenu Annuel</th><th>Taux T</th><th>Cte K</th></tr>
+  <tr>
+    <td>jusqu'à <%= f.text_field :impProvI1, :size => 6  %></td>
+    <td><%= f.text_field :impProvT1, :size => 5  %></td>
+    <td><%= f.text_field :impProvK1, :size => 5  %></td>
+  </tr>
+  <tr>
+    <td>jusqu'à <%= f.text_field :impProvI2, :size => 6  %></td>
+    <td><%= f.text_field :impProvT2, :size => 5  %></td>
+    <td><%= f.text_field :impProvK2, :size => 5  %></td>
+  </tr>
+  <tr>
+    <td>et plus</td>
+    <td><%= f.text_field :impProvT3, :size => 5  %></td>
+    <td><%= f.text_field :impProvK3, :size => 5  %></td>
+  </tr>
+</table>
+<b>Déduction de base: </b><%= f.text_field :deductionBaseProv, :size => 5  %><br/>
+
+<h2>Assurance-emploi</h2>
+<table>
+<tr><td>Taux de l'employé: </td><td><%=  f.text_field :aeTauxEmploye, :size => 5  %></td></tr>
+<tr><td>Maximum annuel de l'employé: </td><td><%=  f.text_field :aeMaximumEmploye, :size => 5  %></td></tr>
+<tr><td>Maximum gains assurables: </td><td><%=  f.text_field :aeMaximumGainAssurable, :size => 5  %></td></tr>
+<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :aeTauxEmployeur, :size => 5  %></td></tr>
+</table>
+
+<h2>Régime de retraite</h2>
+<table>
+<tr><td>Taux de l'employé: </td><td><%=  f.text_field :rrqTauxEmploye, :size => 5  %></td></tr>
+<tr><td>Maximum annuel de l'employé: </td><td><%=  f.text_field :rrqMaximumEmploye, :size => 5  %></td></tr>
+<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :rrqTauxEmployeur, :size => 5  %></td></tr>
+<tr><td>Exemption de l'employé: </td><td><%=  f.text_field :rrqExemptionEmploye, :size => 5  %></td></tr>
+</table>
+
+<h2>Régime assurance parentale</h2>
+<table>
+<tr><td>Taux de l'employé: </td><td><%=  f.text_field :rqapTauxEmploye, :size => 7  %></td></tr>
+<tr><td>Maximum annuel de l'employé: </td><td><%=  f.text_field :rqapMaximumEmploye, :size => 5  %></td></tr>
+<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :rqapTauxEmployeur, :size => 5  %></td></tr>
+</table>
+
+<h2>Fond de la santé</h2>
+<table>
+<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :fssTauxEmployeur, :size => 7  %></td></tr>
+</table>
+
+<h2>CSST</h2>
+<table>
+<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :csstTauxEmployeur, :size => 7  %></td></tr>
+</table>
+
+<p>
+  <%= f.submit button_name, :class => "submit" %>
+</p>
+
+<% end %>
+

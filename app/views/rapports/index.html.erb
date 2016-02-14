@@ -1,0 +1,70 @@
+<h1>Rapports</h1>
+
+<h2>Retenues gouvernementales</h2>
+<%= form_tag :controller => 'periodes', :action => 'gouv' do %>
+<table>
+<tr><td>Première période: </td><td><%= select_tag :premiere, options_for_select(FeuilleGroupe.candidates)%></td></tr>
+<tr><td>Dernière période: </td><td><%= select_tag :derniere, options_for_select(FeuilleGroupe.candidates)%></td/></tr>
+</table>
+  <%= submit_tag "Générer" %>
+<% end %>
+
+
+<h2>Heures-Activités</h2>
+<%= form_tag :controller => 'feuille_groupes', :action => 'heures' do %>
+<table>
+<tr><td>Debut du rapport: </td><td><%= select_date Date.new(Date.today.year, 1, 1), :prefix => 'debut' %></td></tr>
+<tr><td>Fin du rapport (inclusivement): </td><td><%= select_date Date.today, :prefix => 'fin' %></td/></tr>
+</table>
+  <%= submit_tag "Générer" %>
+<% end %>
+
+
+<h2>T4</h2>
+<%= form_tag :controller => 'employeurs', :id => Employeur.instance.id, :action => 't4' do %>
+<table>
+<tr><td>Annee: </td><td><%= select_tag :annee, options_for_select([ 2014,2015,2016,2017,2018 ]) %></td></tr>
+<tr><td>Destinataire: </td><td><%= select_tag :dest, options_for_select([ "gouvernement", "employe" ]) %></td></tr>
+</table>
+  <%= submit_tag "Générer" %>
+<% end %>
+<p>
+Note: Sauvez le PDF dans un fichier et ensuite imprimez-le avec un logiciel comme Acrobat. Ne surtout
+pas tenter de l'imprimer directement dans le fureteur parce que les marges sont généralement incorrectes.
+Le formulaire devrait être le RL-1.L (Relevé 1 LASER - Revenus d'emploi et revenus divers).
+<p/>
+<p/>
+
+<h2>RL1</h2>
+<%= form_tag :controller => 'employeurs', :id => Employeur.instance.id, :action => 'rl1' do %>
+<table>
+<tr><td>Annee: </td><td><%= select_tag :annee, options_for_select([ 2014,2015,2016,2017,2018 ]) %></td></tr>
+</table>
+  <%= submit_tag "Générer" %>
+<% end %>
+<p>
+Note: Sauvez le PDF dans un fichier et ensuite imprimez-le avec un logiciel comme Acrobat. Ne surtout
+pas tenter de l'imprimer directement dans le fureteur parce que les marges sont généralement incorrectes.
+<p/>
+<p/>
+
+<h2>Salaires des employés</h2>
+<%= form_tag :controller => 'employeurs', :id => Employeur.instance.id, :action => 'salaires' do %>
+<table>
+<tr><td>Début: </td><td><%= select_date Date.today, :prefix => "debut" %></td></tr>
+<tr><td>Fin: </td><td><%= select_date Date.today, :prefix => "fin" %></td></tr>
+</table>
+  <%= submit_tag "Générer" %>
+<% end %>
+<p/>
+
+<h2>Rapport des paies</h2>
+<%= form_tag :controller => 'employeurs', :id => Employeur.instance.id,  :action => 'rapport_paies' do %>
+<table>
+<tr><td>Début: </td><td><%= select_date Date.today, :prefix => "debut" %></td></tr>
+<tr><td>Fin: </td><td><%= select_date Date.today, :prefix => "fin" %></td></tr>
+</table>
+  <%= submit_tag "Générer" %>
+<% end %>
+<p/>
+

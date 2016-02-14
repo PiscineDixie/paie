@@ -1,0 +1,54 @@
+<h1>Modifier la période de paie du <%= @periode.debut -%></h1>
+
+<%= form_for(@periode) do |f| %>
+
+ <%= f.error_messages %>
+
+  <table>
+    <tr><th>Nom</th><th>Chèque</th><th>Remb. Dép.</th><th>Ajust. Hrs</th><th>Autres Gains</th><th>Heures</th><th>Feuille de Temps</th><th>Note</th></tr>
+      <% for @paie in @periode.paies %>
+        <tr>
+          <td><%= @paie.nom_employe %></td>
+          <td>
+            <%= text_field("paie[]", 'cheque_no', :size => 7) %>
+          </td>
+          <td>
+            <%= text_field("paie[]", 'remb_depense', :size => 7, :readonly => @paie.cheque_no) %>
+          </td>
+          <td>
+            <%= text_field("paie[]", 'ajustement_heures', :size => 7, :readonly => @paie.cheque_no) %>
+          </td>
+          <td>
+            <%= text_field("paie[]", 'autre_gain_imposable', :size => 7, :readonly => @paie.cheque_no) %>
+          </td>
+          <td>
+            <%= @paie.heures %>
+          </td>
+          <td>
+            <% if not @paie.feuille_id.nil? %>
+              <%= link_to 'Afficher', { :controller => '/feuilles', :action => 'show', :id => @paie.feuille_id} %>
+            <% end %>
+          </td>
+          <td>
+            <%= text_field("paie[]", 'note', :size => 30) %>
+          </td>
+        </tr>
+      <% end %>
+    <tr>
+      <td>Totaux:</td>
+      <td/>
+      <td><%= number_with_precision(@periode.remb_depense_total, :precision => 2) %></td>
+      <td/>
+      <td><%= number_with_precision(@periode.autre_gain_imposable_total, :precision => 2) %></td>
+      <td><%= number_with_precision(@periode.heures_total, :precision => 2) %></td>
+      <td></td>
+    </tr>
+  </table>
+  
+  <p>
+    <%= f.submit "Enregistrer" %>
+  </p>
+<% end %>
+
+<%= link_to 'Afficher', @periode %> |
+<%= link_to 'Retour', periodes_path %>

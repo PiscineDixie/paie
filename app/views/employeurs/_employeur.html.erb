@@ -1,0 +1,56 @@
+
+<%= form_for(@employeur) do |f| %>
+
+ <%= f.error_messages %>
+
+  <p>
+    <b>Nom</b><br />
+    <%= f.text_field :nom %>
+  </p>
+
+  <p>
+    <b>Adresse1</b><br />
+    <%= f.text_field :adresse1, :size => 20 %>
+  </p>
+
+  <p>
+    <b>Adresse2</b><br />
+    <%= f.text_field :adresse2, :size => 20 %>
+  </p>
+
+  <p>
+    <b>Adresse3</b><br />
+    <%= f.text_field :adresse3, :size => 20 %>
+  </p>
+
+
+  <p>
+    <b>Numéro entreprise</b><br />
+    <%= f.text_field :numero_entreprise, :size => 12 %>
+  </p>
+
+  <p>
+    <b>Date du début de la première période de paie de l'année:</b>
+    <%= f.date_select :debut_paie %>
+  </p>
+  
+  <p>
+    <b>Date du début de la dernière période de paie de l'année:</b>
+    <%= f.date_select :fin_paie %>
+  </p>
+  
+  <p>
+    <b>Semaines par période de paie:</b>
+    <%= f.select :semaines_par_paie, {'1' => 1, '2' => 2, '4' => 4}, :selected => @employeur.semaines_par_paie %>
+  </p>
+  
+  <p>
+    <b>Prochain numéro de chèque:</b>
+    <%= f.text_field :prochain_no_cheque, :size => 5 %>
+  </p>
+  
+  <p>
+    <%= f.submit button_name, :class => "submit" %>
+  </p>
+<% end %>
+

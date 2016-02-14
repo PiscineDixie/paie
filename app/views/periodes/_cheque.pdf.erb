@@ -1,0 +1,25 @@
+<% 
+  # Le cheque et ses deux stubs
+  #
+  unless cheque.total == 0
+    doc.start_new_page
+    # doc.font 'Times-Roman'
+    doc.draw_text Date.today.to_s(:db), :at => [450, 700]
+    doc.draw_text "***" + number_to_currency(cheque.total), :at => [450, 650], :style => :bold
+	  doc.draw_text cheque.montant_alphabetique, :at => [170, 650], :size => 14
+    doc.bounding_box([35, 625], :width => 200) do
+      doc.text cheque.prenom_nom
+      doc.text cheque.employe.adresse1
+      doc.text cheque.employe.adresse2
+      doc.text cheque.employe.adresse3
+    end
+
+    doc.bounding_box([0, 470], :width => 500) do 
+      render :partial => 'stub', :object => cheque, :locals => {:doc => doc}
+	  end
+
+    doc.bounding_box([0, 220], :width => 500) do
+      render :partial => 'stub', :object => cheque, :locals => {:doc => doc}
+	  end
+  end
+%>

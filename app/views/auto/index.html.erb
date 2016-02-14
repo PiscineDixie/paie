@@ -1,0 +1,23 @@
+<h1>Mon dossier</h1>
+
+<h2>Mes feuilles de temps</h2>
+<table>
+<tr><th>Période</th><th>Tot heures</th><th/><th/>
+<% @feuilles.each do | periode, f | %>
+  <tr>
+    <td><%= f.debut %> au <%= f.dernierJour %> </td>
+    <% if f.id.nil? %>
+      <td align="right">N/A</td>
+      <td><%= link_to 'Ajouter', { :controller => '/feuilles', :action => "new", :employe_id => @employe.id, :periode => periode }%></td>
+    <% else %>
+      <td align="right"><%= number_with_precision(f.totalHeures, :precision => 2) %></td>
+      <% unless f.locked || f.empl_locked %>
+        <td><%= link_to 'Modifier', { :controller => '/feuilles', :action => "edit", :id => f.id }%></td>
+      <% else %>
+        <td>Traitée</td>
+      <% end %>
+      <td><%= link_to 'Sommaire', { :controller => '/feuilles', :action => "sommaire", :id => f.id }%></td>
+    <% end%>
+  </tr>
+<% end %>
+</table>

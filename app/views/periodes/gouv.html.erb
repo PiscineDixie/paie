@@ -1,0 +1,19 @@
+<!-- Afficher les retenues gouvernentales telle que contenues dans l'objet RetenuesGouvernementales -->
+
+<h1>Retenues gouvernementales du <%= @rG.debut -%> au <%= @rG.fin -%></h1>
+
+<table>
+  <tr><td>Salaires brut</td><td align="right"><%= number_with_precision(@rG.brut, :precision => 2) %></td><td></td></tr>
+  <tr><td>RRQ</td><td align="right"><%= number_with_precision(@rG.rrq, :precision => 2) %></td><td></td></tr>
+  <tr><td>RQAP</td><td align="right"><%= number_with_precision(@rG.rqap, :precision => 2) %></td><td></td></tr>
+  <tr><td>FSS</td><td align="right"><%= number_with_precision(@rG.fss, :precision => 2) %></td><td></td></tr>
+  <tr><td>CSST</td><td align="right"><%= number_with_precision(@rG.csst, :precision => 2) %></td><td></td></tr>
+  <tr><td>Imp Prov</td><td align="right"><%= number_with_precision(@rG.impot_prov, :precision => 2) %></td></tr>
+  <tr><td>Total Prov</td><td align="right"><%= number_with_precision(@rG.total_prov, :precision => 2) %></td></tr>
+  <tr><td></td></tr>
+  <tr><td>AE</td><td align="right"><%= number_with_precision(@rG.ae, :precision => 2) %></td><td></td></tr>
+  <tr><td>Imp Fed</td><td align="right"><%= number_with_precision(@rG.impot_fed, :precision => 2) %></td></tr>
+  <tr><td>Total Fed</td><td align="right"><%= number_with_precision(@rG.total_fed, :precision => 2) %></td></tr>
+</table>
+
+<%= link_to 'Retour', :back %>

@@ -1,0 +1,68 @@
+<!-- Code pour generer le rapport des periodes de paie pour une plage de dates -->
+<!-- Les variables sont:
+     @debut, @fin: Date du debut et de la fin du rapport
+     @employeur
+-->
+<h1>Paies du <%= @debut %> au <%= @fin %></h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Heures</th>
+    <th>Brut</th>
+    <th>Net</th>
+    <th>Impôt Féd</th>
+    <th>Impôt Prov</th>
+    <th>RRQ Employés</th>
+    <th>AE Employés</th>
+    <th>RQAP Employés</th>
+    <th>RRQ Employeur</th>
+    <th>AE Employeur</th>
+    <th>RQAP Employeur</th>
+    <th>FSS Employeur</th>
+    <th>CSST Employeur</th>
+  </tr>
+  </thead>
+  <tbody>
+  
+<% ps = Periode.where("debut >= :minDate and debut <= :endDate", 
+        {:minDate => @debut.to_s(:db), :endDate => @fin.to_s(:db)}).order(:debut) %>
+<% ps.each do | p | %>
+  <tr>
+    <td><%=p.debut %>
+    <td align="right"><%= number_with_precision(p.heures_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.brut_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.net_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.impot_fed_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.impot_prov_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.rrq_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.ae_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.rqap_employe_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.rrq_employeur_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.ae_employeur_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.rqap_employeur_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.fss_employeur_total, :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(p.csst_employeur_total, :precision => 2) %></td>
+  </tr>  
+<% end %>
+
+  <tr>
+    <td>Totaux:</td>
+    <td align="right"><%= number_with_precision(@employeur.heures_range(@debut, @fin+1), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :brut), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :net), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :impot_fed), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :impot_prov), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :rrq), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :ae), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :rqap), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(Periode.total(@debut, @fin, :rrq_employeur), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(Periode.total(@debut, @fin, :ae_employeur), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(Periode.total(@debut, @fin, :rqap_employeur), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(Periode.total(@debut, @fin, :fss_employeur), :precision => 2) %></td>
+    <td align="right"><%= number_with_precision(Periode.total(@debut, @fin, :csst_employeur), :precision => 2) %></td>
+  </tr>
+  </tbody>
+</table>
+

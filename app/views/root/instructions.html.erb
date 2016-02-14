@@ -1,0 +1,124 @@
+<h1>Instructions</h1>
+
+<p>
+  Ce programme permet d'enregistrer des feuilles de temps et à partir de ces dernières
+  de générer la paie. Les fonctions suivantes sont disponibles:
+  <ul>
+    <li>Chaque période travaillée de la feuille de temps doit correspondre à une activité.
+    Ceci permet d'obtenir un rapport des coûts pour diverses activités.</li>
+    <li>Les feuilles de temps sont automatiquement reliées à une période de paie et
+    utilisées dans le calcul du salaire.</li>
+    <li>Le module de paie s'applique à la province du Québec.</li>
+    <li>Tous les employés travaillent pour un seul employeur.</li>
+    <li>La table "constante_paies" contient la plupart des constantes utilisées dans
+    le calcul de la paie. La valeur par défaut de ces constantes est pour l'année 2008.
+    <li>Le calcul de la paie génére le salaire brut et net, les déductions pour
+    l'assurance-emploi, le régime de pension du Québec, l'assurance-parentale, et 
+    les impôts fédéral et provincial.</li>
+    <li>Les chèques d'une période de paie peuvent être imprimés. Le format des chèques
+    est controllé par la stylesheet "cheque.css". Pour chaque chèque, le programme
+    imprime une feuille où la partie supérieure est un chèque, un talon de paie pour
+    l'employé dans le milieu de la feuille et un talon pour l'employeur au bas de la
+    feuillle. Les chèques compatibles avec le programme Simple Comptable peuvent
+    être utilisés.</li>
+    <li>La paie de vacances est toujours incluse avec chaque période de paie.</li>
+  </ul>
+</p>
+
+<h2>Configuration</h2>
+Afin de configurer l'application, effectuez les étapes suivantes:
+<ol>
+  <li>Inscrivez les données de l'employeur. Sélectionner "Employeur" dans le menu de gauche et entrez les données
+  demandées:
+  <ul>
+    <li>Le numéro d'entreprise est le numéro d'enregistrement devant être affiché sur les T4.</li>
+    <li>La date du début de la première période de paie est utilisé pour afficher les dates
+    des feuilles de temps. Même chose pour la dernière période de paie. Ces dates peuvent être
+    modifiées à chaque année.</li>
+    <li>Les chèques imprimés portent des numéros commencant avec le numéro donné ici. Il est
+    préférable de réservé une série de numéros pour les chèques de paie afin d'éviter d'avoir
+    à modifier ce champ lorsqu'un chèque est tirer pour un fournisseur quelconque.</li>
+  </ul>
+  </li>
+  <li>Choississez "Constantes de Calcul" dans le menu de gauche et entrez les paramètres fournis par le
+  gouvernement pour la taux d'imposition.
+  </li>
+  <li>
+    Choississez "Employés" dans le menu de gauche et créez une fiche pour chaque employé a l'aide
+    du lien "Ajouter un employé". Inscrivez les données demandées:
+    <ul>
+      Les employés sont normalement crées en mode "actif". Si un employé quitte sont emploi, on doit alors
+      changé sont état à "inactif". Ceci empêche de créer de nouvelles paies pour lui tout en préservant
+      ses paies précédentes.
+    </ul>
+    <ul>
+      Les trois lignes d'adresse doivent contenir l'adresse postale permettant de poster un chèque de paie
+      ou un T4 à l'employé.
+    </ul>
+    <ul>
+      Les numéro d'assurance sociale est requis. Si l'employé n'a pas de numéro, on peut inscrire n'importe
+      quel nombre.
+    </ul>
+    <ul>
+      L'adresse courriel sert à communiquer avec l'employé. Eventuellement à expédier le talon de paie si
+      le champ "expédie courriel par paie" est "oui".
+    </ul>
+    <ul>La date de naissance détermine si l'employé contribue au régime de retraite.</ul>
+    <ul>Un employé peut être exempté d'impôt s'il fourni le questionnaire TD1 et TP-1015.3 dûment
+    complété. Il n'est pas possible d'être exempté pour seulement un des deux impôts. </ul>
+  </li>
+</ol>
+
+<h2>Feuilles de temps</h2>
+<p>A chaque période de paie, un opérateur doit entrer les feuilles de temps des employés. Le lien
+"Feuille de temps" du menu de gauche affiche la liste de tous les débuts possibles de périodes de paie.
+Choississez le lien "Afficher" correspondant à la période désirée.
+</p>
+<p>Note: Si la période désirée n'apparaît pas à l'écran, vous devez corriger les données de l'employeur.</p>
+
+<p>
+  Pour la période choisi, le programme récupère la liste des employés actifs et propose un lien "Ajouter" permettant
+  de créer une feuille de temps pour la période pour l'employé. Vous devez faire ceci pour chaque employé ayant
+  remis une feuille de temps.
+</p>
+
+<p>
+  Pour chaque feuille de temps, le programme propose une boîte pour chaque journée de la période de paye. Il
+  faut inscrire les heures travaillées et pour quelle activité. Plusieurs blocs d'heures peuvent être
+  inscrits pour chaque jour. Chaque bloc a le format: (code d'activité)-(heure de commencement)-(nombre d'heures).
+  Les blocs sont séparés par une virgule. Exemple: Pour une personne ayant travaillé à l'entretien durant de 7:00 à 8:00,
+  ayant donné des cours de natation de 8:00 à 11:00, et ayant agit comme sauveteur de 12:00 à 17:00, on
+  inscrira: E-7:00-1:00,LN-8:00-3:00,S-12:00-5:00.
+</p>
+
+<h2>Paie</h2>
+Les opérations suivantes permettent de gérer la paie. Elles sont accessibles à partir du lien "Périodes de paie"
+du menu de gauche.
+<ul>
+  <li>
+    Afficher, Modifier, Enlever, et Ajouter une période de paie: Permette de manipuler les périodes
+    de paie. L'ajout d'une période de paie n'est possible que pour une date valide selon les données "debut
+    de la première période de paie" et "semaines par période de paie" du dossier de l'employeur.
+  </li>
+  <li>
+    La fonction "Modifier" créer automatiquement un paie pour chaque employé actif et relie la feuille
+    de temps si disponible. Elle permet aussi d'entrer un montant pour remboursement de dépenses, ou un
+    ajustement en heures (négatif ou positif), ou un gain imposable additionel en sus des heures travaillées.
+  </li>
+  <li>
+    La fonction "Calculer" calcul la paie à partir de toutes les données et assigne un numéro de chèque.
+    A partir de cet instant la paie est "gelée". Il n'est plus possible de modifier la feuille de
+    temps ou les montants additionels (remb. dépenses, ajustements, etc.).
+  </li>
+  <li>
+    La fonction "Impression des chèques" génere un fichier qui peut être envoyé à l'imprimante pour
+    écrire les chèques. L'imprimante doit être pré-chargée avec les chèques. Il faut aussi que le
+    fureteur soit configuré pour ne pas imprimer de "footer", "title", "url", etc.
+  </li>
+  <li>
+    La fonction "sommaire" permet de générer un rapport pour la période de paie.
+  </li>
+</ul>
+
+
+

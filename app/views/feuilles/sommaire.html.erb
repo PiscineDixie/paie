@@ -1,0 +1,13 @@
+<!-- Afficher le contenu de l'objet @mt, une instance de  MatriceHeures -->
+
+<h1>Sommaire de "<%= @feuille.nom %>" pour la période du <%= @mt.debut %></h1>
+
+<%= render :partial => 'shared/activites' %>
+<p/>
+<%= render :partial => 'shared/matrice_heures', :object => @mt %>
+<br />
+<%= render :partial => 'shared/rapport_heures', :object => @ra %>
+<br />
+
+<br />
+<%= link_to 'Retour', :back %>

@@ -1,0 +1,6 @@
+<!-- Afficher le contenu de l'objet @ra, une instance de  RapportActivites -->
+
+<h1>Rapport des heures-activités </h1>
+<h2>Du <%= @ra.debut %> au <%= @ra.fin %></h2>
+
+<%= render :partial => 'shared/rapport_heures', :object => @ra %>

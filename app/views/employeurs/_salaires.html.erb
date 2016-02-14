@@ -1,0 +1,14 @@
+<!-- Ceci est le partial pour imprimer le rapport de salaires pour un employe -->
+
+<tr>
+  <td><%=salaires.nom_prenom %>
+  <td align="right"><%= number_with_precision(salaires.salaire_horaire, :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.heures_range(debut, fin+1), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :brut), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :net), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :impot_fed), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :impot_prov), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :rrq), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :ae), :precision => 2) %></td>
+  <td align="right"><%= number_with_precision(salaires.paies_range(debut, fin, :rqap), :precision => 2) %></td>
+</tr>

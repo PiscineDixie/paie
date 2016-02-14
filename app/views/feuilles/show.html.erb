@@ -1,0 +1,14 @@
+<h1>Feuille de temps de <%= @feuille.nom -%></h1>
+
+<%= render :partial => 'shared/activites' %>
+
+<table>
+  <% @feuille.jours.each do |i, j| %>
+    <tr>
+      <td><%= @feuille.periode + i.to_i %></td>
+      <td><%= j %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Retour', :back %>

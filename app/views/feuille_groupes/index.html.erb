@@ -1,0 +1,12 @@
+<h1>Groupes de feuilles de temps</h1>
+
+<table>
+<% for d in @dates %>
+  <tr>
+    <td><%= d %></td>
+    <td><%= link_to 'Afficher', { :action => "show", :id => d} %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
