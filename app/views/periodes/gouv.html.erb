@@ -2,7 +2,7 @@
 
 <h1>Retenues gouvernementales du <%= @rG.debut -%> au <%= @rG.fin -%></h1>
 
-<table>
+<table style="width: 15em;" class="table table-condensed">
   <tr><td>Salaires brut</td><td align="right"><%= number_with_precision(@rG.brut, :precision => 2) %></td><td></td></tr>
   <tr><td>RRQ</td><td align="right"><%= number_with_precision(@rG.rrq, :precision => 2) %></td><td></td></tr>
   <tr><td>RQAP</td><td align="right"><%= number_with_precision(@rG.rqap, :precision => 2) %></td><td></td></tr>

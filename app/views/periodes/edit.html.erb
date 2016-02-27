@@ -4,51 +4,52 @@
 
  <%= f.error_messages %>
 
-  <table>
-    <tr><th>Nom</th><th>Chèque</th><th>Remb. Dép.</th><th>Ajust. Hrs</th><th>Autres Gains</th><th>Heures</th><th>Feuille de Temps</th><th>Note</th></tr>
+    <div class="row">
+      <label class="col-sm-2">Nom</label><label class="col-xs-2 col-sm-1">Chèque</label>
+      <label class="col-xs-2 col-sm-1">Remb. Dép.</label><label class="col-xs-2 col-sm-1">Ajust. Hrs</label>
+      <label class="col-xs-2 col-sm-1">Autres Gains</label><label class="col-xs-2 col-sm-1">Heures</label>
+      <label class="col-xs-2 col-sm-1">Feuille de Temps</label><label class="col-xs-7 col-sm-4">Note</label>
+    </div>
+    
       <% for @paie in @periode.paies %>
-        <tr>
-          <td><%= @paie.nom_employe %></td>
-          <td>
-            <%= text_field("paie[]", 'cheque_no', :size => 7) %>
-          </td>
-          <td>
-            <%= text_field("paie[]", 'remb_depense', :size => 7, :readonly => @paie.cheque_no) %>
-          </td>
-          <td>
-            <%= text_field("paie[]", 'ajustement_heures', :size => 7, :readonly => @paie.cheque_no) %>
-          </td>
-          <td>
-            <%= text_field("paie[]", 'autre_gain_imposable', :size => 7, :readonly => @paie.cheque_no) %>
-          </td>
-          <td>
-            <%= @paie.heures %>
-          </td>
-          <td>
+       <div class="form-inline">
+        <div class="row">
+          <label class="control-label col-sm-2"><%= @paie.nom_employe %></label>
+          <div class="col-xs-2 col-sm-1">
+            <%= text_field("paie[]", 'cheque_no', :size => 7, class: 'form-control') %>
+          </div>
+          <div class="col-xs-2 col-sm-1">
+            <%= text_field("paie[]", 'remb_depense', :size => 7, :readonly => @paie.cheque_no, class: 'form-control') %>
+          </div>
+          <div class="col-xs-2 col-sm-1">
+            <%= text_field("paie[]", 'ajustement_heures', :size => 7, :readonly => @paie.cheque_no, class: 'form-control') %>
+          </div>
+          <div class="col-xs-2 col-sm-1">
+            <%= text_field("paie[]", 'autre_gain_imposable', :size => 7, :readonly => @paie.cheque_no, class: 'form-control') %>
+          </div>
+          <div class="col-xs-2 col-sm-1">
+            <p class="form-control-static"><%= @paie.heures %></p>
+          </div>
+          <div class="col-xs-2 col-sm-1">
             <% if not @paie.feuille_id.nil? %>
               <%= link_to 'Afficher', { :controller => '/feuilles', :action => 'show', :id => @paie.feuille_id} %>
             <% end %>
-          </td>
-          <td>
-            <%= text_field("paie[]", 'note', :size => 30) %>
-          </td>
-        </tr>
+          </div>
+          <div class="col-xs-7 col-sm-4">
+            <%= text_field("paie[]", 'note', :size => 30, class: 'form-control') %>
+          </div>
+        </div>
+        </div>
       <% end %>
-    <tr>
-      <td>Totaux:</td>
-      <td/>
-      <td><%= number_with_precision(@periode.remb_depense_total, :precision => 2) %></td>
-      <td/>
-      <td><%= number_with_precision(@periode.autre_gain_imposable_total, :precision => 2) %></td>
-      <td><%= number_with_precision(@periode.heures_total, :precision => 2) %></td>
-      <td></td>
-    </tr>
-  </table>
-  
-  <p>
-    <%= f.submit "Enregistrer" %>
-  </p>
+      
+     <div class="row">
+      <div class="col-sm-2"><strong>Totaux:</strong></div>
+      <div class="col-sm-offset-1 col-sm-1"><%= number_with_precision(@periode.remb_depense_total, :precision => 2) %></div>
+      <div class="col-sm-offset-1 col-sm-1"><%= number_with_precision(@periode.autre_gain_imposable_total, :precision => 2) %></div>
+      <div class="col-sm-1"><%= number_with_precision(@periode.heures_total, :precision => 2) %></div>
+     </div>
+     
+    <div style="padding-top:20px;"></div>
+    <%= f.submit "Enregister", :class => "btn btn-primary" %>
+    <%= f.submit( 'Annuler', {name: 'cancel', class: "btn btn-default"}) %>
 <% end %>
-
-<%= link_to 'Afficher', @periode %> |
-<%= link_to 'Retour', periodes_path %>

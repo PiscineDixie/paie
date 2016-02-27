@@ -8,7 +8,7 @@ class Feuille < ActiveRecord::Base
   # Variable local qui est convertie en "heures" dans la db
   attr_accessor :jourVar
   
-#  attr_accessible :employe_id, :periode, :heures
+#  attr_accessible :employe_id, :periode, :heures, empl_locked
   
   has_many :heures, :dependent => :delete_all
   
@@ -103,7 +103,6 @@ class Feuille < ActiveRecord::Base
     return @jourVar
   end
         
-      
   # Helper function to check that the array of Heure passes all validations
   def self.heuresValidations(model, hrs)
     ok = true
@@ -171,4 +170,9 @@ class Feuille < ActiveRecord::Base
     return fin - 1
   end
   
+  def includesToday?
+    t = Date.today
+    return self.debut <= t && t < fin
+  end
+      
 end

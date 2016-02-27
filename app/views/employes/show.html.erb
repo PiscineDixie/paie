@@ -1,6 +1,6 @@
 <h1>Données de: <%=@employe.nom_prenom -%></h1>
 
-<%= render :partial => 'shared/employe', :object => @employe %>
+<%= render partial: @employe, locals: { readonly: true} %>
 
 <%= link_to 'Modifier', edit_employe_path(@employe) %> |
 <%= link_to 'Retour', employes_path %>

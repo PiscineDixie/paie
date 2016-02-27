@@ -40,6 +40,11 @@ class EmployesController < ApplicationController
   # POST /employes
   # POST /employes.xml
   def create
+    if (params[:cancel])
+      redirect_to(employes_url)
+      return;
+    end
+    
     @employe = Employe.new(employe_params)
 
       if @employe.save
@@ -54,6 +59,12 @@ class EmployesController < ApplicationController
   # PUT /employes/1.xml
   def update
     @employe = Employe.find(params[:id])
+
+    if (params[:cancel])
+      redirect_to(@employe)
+      return;
+    end
+    
     if @employe.update(employe_params())
       flash[:notice] = 'Employé mis à jour.'
       redirect_to(@employe)

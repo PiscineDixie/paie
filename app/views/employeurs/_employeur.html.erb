@@ -1,56 +1,58 @@
 
-<%= form_for(@employeur) do |f| %>
+<%= form_for(@employeur, {html: {class: 'form-horizontal'}}) do |f| %>
 
  <%= f.error_messages %>
 
-  <p>
-    <b>Nom</b><br />
-    <%= f.text_field :nom %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Nom</label>
+    <div class="col-sm-3"><%= f.text_field :nom, readonly: readonly, class:'form-control' %></div>
+  </div>
 
-  <p>
-    <b>Adresse1</b><br />
-    <%= f.text_field :adresse1, :size => 20 %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Adresse1</label>
+    <div class="col-sm-3"><%= f.text_field :adresse1, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
 
-  <p>
-    <b>Adresse2</b><br />
-    <%= f.text_field :adresse2, :size => 20 %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Adresse2</label>
+    <div class="col-sm-3"><%= f.text_field :adresse2, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
 
-  <p>
-    <b>Adresse3</b><br />
-    <%= f.text_field :adresse3, :size => 20 %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Adresse3</label>
+    <div class="col-sm-3"><%= f.text_field :adresse3, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
 
 
-  <p>
-    <b>Numéro entreprise</b><br />
-    <%= f.text_field :numero_entreprise, :size => 12 %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Numéro entreprise</label>
+    <div class="col-sm-3"><%= f.text_field :numero_entreprise, :size => 12, readonly: readonly, class:'form-control' %></div>
+  </div>
 
-  <p>
-    <b>Date du début de la première période de paie de l'année:</b>
-    <%= f.date_select :debut_paie %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Date du début de la première période de paie de l'année</label>
+    <div class="col-sm-3"><%= f.text_field :debut_paie, type: 'date', readonly: readonly, class:'form-control' %></div>
+  </div>
   
-  <p>
-    <b>Date du début de la dernière période de paie de l'année:</b>
-    <%= f.date_select :fin_paie %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Date du début de la dernière période de paie de l'année</label>
+    <div class="col-sm-3"><%= f.text_field :fin_paie, type: 'date', readonly: readonly, class:'form-control' %></div>
+  </div>
   
-  <p>
-    <b>Semaines par période de paie:</b>
-    <%= f.select :semaines_par_paie, {'1' => 1, '2' => 2, '4' => 4}, :selected => @employeur.semaines_par_paie %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Semaines par période de paie</label>
+    <div class="col-sm-3"><%= f.select(:semaines_par_paie, {'1' => 1, '2' => 2, '4' => 4}, {selected: @employeur.semaines_par_paie}, {readonly: readonly, class:'form-control'}) %></div>
+  </div>
   
-  <p>
-    <b>Prochain numéro de chèque:</b>
-    <%= f.text_field :prochain_no_cheque, :size => 5 %>
-  </p>
+  <div class="form-group">
+    <label class="control-label col-sm-4">Prochain numéro de chèque</label>
+    <div class="col-sm-3"><%= f.text_field :prochain_no_cheque, :size => 5, readonly: readonly, class:'form-control' %></div>
+  </div>
   
-  <p>
-    <%= f.submit button_name, :class => "submit" %>
-  </p>
+<% unless readonly %>
+    <%= f.submit button_name, :class => "btn btn-primary" %>
+    <%= f.submit( 'Annuler', {name: 'cancel', class: "btn btn-default"}) %>
+<% end %>
+
 <% end %>
 

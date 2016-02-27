@@ -54,6 +54,11 @@ class EmployeursController < ApplicationController
   def update
     @employeur = Employeur.find(params[:id])
 
+    if (params[:cancel])
+      redirect_to(@employeur)
+      return;
+    end
+    
     respond_to do |format|
       if @employeur.update_attributes(employeur_params())
         flash[:notice] = 'Employeur was successfully updated.'
@@ -93,8 +98,8 @@ class EmployeursController < ApplicationController
   # params[:fin] - date de la find du rapport
   def salaires
     @employeur = Employeur.find(params[:id])
-    @debut = Date.new(params['debut']['year'].to_i, params['debut']['month'].to_i, params['debut']['day'].to_i)
-    @fin   = Date.new(params['fin']['year'].to_i, params['fin']['month'].to_i, params['fin']['day'].to_i)
+    @debut = Date.parse(params['debut'])
+    @fin   = Date.parse(params['fin'])
   end
   
   # Rapports des periodes de paie de l'intervalle donne. Avec totaux
@@ -102,8 +107,8 @@ class EmployeursController < ApplicationController
   # params[:fin] - date de la find du rapport
   def rapport_paies
     @employeur = Employeur.find(params[:id])
-    @debut = Date.new(params['debut']['year'].to_i, params['debut']['month'].to_i, params['debut']['day'].to_i)
-    @fin   = Date.new(params['fin']['year'].to_i, params['fin']['month'].to_i, params['fin']['day'].to_i)
+    @debut = Date.parse(params['debut'])
+    @fin   = Date.parse(params['fin'])
   end
 
 

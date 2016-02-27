@@ -1,7 +1,9 @@
 <h1>Transactions du GL pour la période de paie du <%= @periode.debut -%></h1>
 
-<table>
-  <tr><th>Compte</th><th>Débit</th><th>Crédit</th></tr>
+<table style="width:30em" class="table table-condensed table-hover">
+  <thead>
+    <tr><th style="width:10em">Compte</th><th style="width:10em; text-align:right;">Débit</th><th style="width:10em;text-align:right;">Crédit</th></tr>
+  </thead>
   <tr><td>Dépenses - salaires</td><td align="right"><%= number_with_precision(@gl.brut, :precision => 2) %></td><td></td></tr>
   <tr><td>Dépenses - AE</td><td align="right"><%= number_with_precision(@gl.ae_depense, :precision => 2) %></td><td></td></tr>
   <tr><td>Dépenses - RRQ</td><td align="right"><%= number_with_precision(@gl.rrq_depense, :precision => 2) %></td><td></td></tr>
@@ -18,4 +20,3 @@
   <tr><td>Passif - Imp Prov</td><td></td><td align="right"><%= number_with_precision(@gl.impot_prov_passif, :precision => 2) %></td></tr>
 </table>
 
-<%= link_to 'Retour', :back %>

@@ -1,5 +1,3 @@
 <h1>Modifier les Constantes de Calcul de la Paie</h1>
 
-<%= render :partial => @constante_paie, :locals => { :button_name => "Enregistrer"} %>
-
-<%= link_to 'Show', @constante_paie %>
+<%= render :partial => @constante_paie, :locals => { button_name: "Enregistrer", readonly: false} %>

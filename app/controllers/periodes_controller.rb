@@ -58,6 +58,12 @@ class PeriodesController < ApplicationController
   # POST /periodes
   # POST /periodes.xml
   def create
+    
+    if (params[:cancel])
+      redirect_to(periodes_url)
+      return;
+    end
+    
     date = Date.parse(params[:debut])
     @periode = Periode.new(:debut => date)
 
@@ -74,6 +80,11 @@ class PeriodesController < ApplicationController
   def update
     @periode = Periode.find(params[:id])
 
+    if (params[:cancel])
+      redirect_to(periodes_url)
+      return;
+    end
+    
     if Paie.update(params[:paie].keys, params[:paie].values)
       flash[:notice] = 'Période de paie modifiée.'
       redirect_to(@periode)

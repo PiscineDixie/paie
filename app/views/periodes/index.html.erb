@@ -1,20 +1,19 @@
 <h1>Liste des périodes de paie</h1>
 
-<table>
-  <tr>
-    <th>Début</th>
-  </tr>
+<table style="width:20em;" class="table table-hover">
+  <thead>
+    <tr><th>Début</th><td></td></tr>
+  </thead>
 
 <% for periode in @periodes %>
   <tr>
-    <td><%= periode.debut %></td>
     <% if periode.new_record? %>
-      <td><%= button_to 'Créer', periodes_path(params: {debut: periode.debut}) %></td>
+      <td><%= periode.debut %></td>
+      <td><%= button_to('Créer', periodes_path(params: {debut: periode.debut}), class: "btn btn-xs btn-primary") %></td>
     <% else %>
-      <td><%= link_to 'Afficher', periode %></td>
+      <td><%= link_to periode.debut, periode %></td>
        <% unless periode.locked %>
-        <td><%= link_to 'Modifier', edit_periode_path(periode) %></td>
-        <td><%= link_to 'Enlever', periode, :confirm => 'Etes-vous certain?', :method => :delete %></td>
+        <td><%= button_to('Enlever', periode, {data: {confirm: 'Etes vous certain?'}, method: :delete, class: "btn btn-danger btn-xs"})%></td>
       <% end %>
     <% end %>
   </tr>

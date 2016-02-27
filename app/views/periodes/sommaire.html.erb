@@ -1,6 +1,6 @@
 <h1>Période de paie du <%= @periode.debut -%></h1>
 
-<table>
+<table class="table table-condensed table-hover">
   <tr><th>Chèque</th><th>Nom</th><th>Net</th><th>Brut</th><th>Remb. Dép.</th><th>Aut. Gain</th><th>AE</th><th>RQAP</th><th>RRQ</th><th>Imp Fed</th><th>Imp Prov</th></tr>
     <% for @paie in @periode.paies %>
      <% if @paie.total > 0 %>

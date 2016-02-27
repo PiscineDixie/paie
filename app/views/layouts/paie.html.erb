@@ -1,97 +1,153 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Paie <%= controller.action_name %></title>
-  <%= stylesheet_link_tag    "paie", :media => "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <script src="//apis.google.com/js/client:platform.js"></script>
-  <%= csrf_meta_tags %>
-</head>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Paie <%= controller.action_name %></title>
+    <%= stylesheet_link_tag "application", :media => "all", "data-turbolinks-track" => true%>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 
-<body">
+    <script src="//apis.google.com/js/client:plus.js"></script>
+    <%= csrf_meta_tags %>
+  </head>
+
+<body>
   
-  <div id="banner">
-    <%= image_tag("logo112x87.png") %>
-    <%= @page_title || "Feuilles de Temps et Paie"%>
-  </div>
-  
-  <div id="columns">
-    <div id="side">
-      <% if session[:user] %>
-        <p>
-        <%= link_to "Logout " + User.sessionUserId(session[:user]), signout_path, id: "sign_out" %>
-        </p>
-    
-        <% if !User.hasAdminPriviledge(session[:user]) %>
-          <p>
-          <%= link_to "Home ", controller: 'auto' %>
-          </p>
-    
-        <% else %>
-          <p>
-          <%= link_to "Feuilles de temps", :controller => '/feuille_groupes' %>
-          </p>
-          <p>
-          <%= link_to  "Périodes de paie",    :controller => '/periodes' %>
-          </p>
-          <p>
-          <%= link_to  "Employés",    :controller => '/employes' %>
-          </p>
-    	  
-      	  <% if Employeur.instance %>
-              <p>
-              <%= link_to  "Employeur",    :controller => '/employeurs', :action => 'show', :id => Employeur.instance.id %>
-              </p>
-      	  <% else%>
-              <p>
-              <%= link_to  "Employeur",    :controller => '/employeurs', :action => 'new' %>
-              </p>
+    <div class="page-header">
+      <%= image_tag("logo112x87.png") %>
+      <div class="pull-right">
+        <h1><%= @page_title || "Paie" %></h1>
+      </div>
+    </div>
+
+      <% if session[:user] and User.find_by_id(session[:user]) && !User.hasAdminPriviledge(session[:user]) %>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+          <ul class="nav navbar-nav">
+           <li><%= link_to "Feuilles de temps ", controller: 'auto' %></li>
+      
+         </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <%= link_to "Logout " + User.sessionUserId(session[:user]), signout_path, id: "sign_out" %>
+            </li>
+          </ul>
+          </div>
+        </nav>
+
+    <% elsif session[:user] and User.find_by_id(session[:user]) %>
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li>
+              <%= link_to "Feuilles de temps", :controller => '/feuille_groupes' %>
+            </li>
+            <li>
+              <%= link_to  "Périodes de paie",    :controller => '/periodes' %>
+            </li>
+            <li>
+              <%= link_to  "Rapports",    :controller => '/rapports' %>
+            </li>
+            
+            <% if User.hasAdminPriviledge(session[:user]) %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuration<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to  "Employés",    :controller => '/employes' %>
+                </li>
+                <li>
+                <% if Employeur.instance %>
+                  <li>
+                  <%= link_to  "Employeur",    :controller => '/employeurs', :action => 'show', :id => Employeur.instance.id %>
+                  </li>
+                <% else%>
+                  <li>
+                  <%= link_to  "Employeur",    :controller => '/employeurs', :action => 'new' %>
+                  </li>
+                <% end %>
+                <% if ConstantePaie.instance %>
+                      <li>
+                      <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'show', :id => ConstantePaie.instance.id %>
+                      </li>
+                  <% else %>
+                      <li>
+                      <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'new' %>
+                      </li>
+                  <% end %>
+                  <li><%= link_to  "Usagers",    :controller => '/users' %></li>
+              </ul>
+            </li>
             <% end %>
-    	  
-          <p>
-          <%= link_to  "Rapports",    :controller => '/rapports' %>
-          </p>
-          
-      	  <% if ConstantePaie.instance %>
-              <p>
-              <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'show', :id => ConstantePaie.instance.id %>
-              </p>
-      	  <% else %>
-              <p>
-              <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'new' %>
-              </p>
-          <% end %>
-          
-          <p>
-          <%= link_to  "Usagers",    :controller => '/users' %>
-          </p>
-          
-          <p>
-          <%= link_to  "Instructions",  instructions_url %>
-          </p>
-        <% end %>
-      <% elsif User.count.zero? %>
-        <p>
-        <%= link_to  "Usagers",    :controller => '/users' %>
-        </p>
-      <% else %>
-        <p>
-        <a href="" id="facebook_signin">Login avec Facebook</a>
-        </p>
-        <p>
-        <a href="" id="google_signin">Login avec Google</a>
-        </p>
-      <% end %>
-   </div>
-    
-    <div id="main">
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <%= link_to  "Aide",          instructions_url %>
+            </li>
+            <li>
+              <%= link_to "Logout " + User.sessionUserId(session[:user]), signout_path, id: "sign_out" %>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <% else %>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="" id="facebook_signin">Login avec Facebook</a>
+            </li>
+            <li>
+              <a href="" id="google_signin">Login avec Google</a>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <% end %>
+
+    <div id="columns" class="container-fluid">
       <% if flash[:notice] -%>
-        <div id="notice"><%= flash[:notice] %></div>
+      <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <%= flash[:notice] %>
+      </div>
       <% end -%>
 
       <%= yield  %>
     </div>
-    
-  </div>
-</body>
+
+    <div class="footer"></div
+  </body>
+
 </html>

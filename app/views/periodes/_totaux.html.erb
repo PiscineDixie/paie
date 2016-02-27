@@ -3,16 +3,21 @@
 -->
 
 <h3>Employés</h3>
-<table>
+<table class="table table-condensed">
+<thead><tr><th style="width:7em"></th><th style="width:10em"></th></tr></thead>
+<tbody>
 <tr><td>AE:</td>        <td align="right"><%= number_with_precision(totaux.ae_employe_total, :precision => 2) -%><td/></tr>
 <tr><td>RRQ:</td>       <td align="right"><%= number_with_precision(totaux.rrq_employe_total, :precision => 2) -%><td/></tr>
 <tr><td>RQAP:</td>      <td align="right"><%= number_with_precision(totaux.rqap_employe_total, :precision => 2) -%><td/></tr>
 <tr><td>Impôt Féd:</td> <td align="right"><%= number_with_precision(totaux.impot_fed_employe_total, :precision => 2) -%><td/></tr>
 <tr><td>Impôt Prov:</td><td align="right"><%= number_with_precision(totaux.impot_prov_employe_total, :precision => 2) -%><td/></tr>
+</tbody><tfoot/>
 </table>
 
 <h3>Employeur</h3>
-<table>
+<table class="table table-condensed">
+<thead><tr><th style="width:7em"></th><th style="width:10em"></th></tr></thead>
+<tbody>
 <tr><td>Brut:</td>      <td align="right"><%= number_with_precision(totaux.brut_total, :precision => 2) -%><td/></tr>
 <tr><td>Net:</td>       <td align="right"><%= number_with_precision(totaux.net_total, :precision => 2) -%><td/></tr>
 <tr><td>AE:</td>        <td align="right"><%= number_with_precision(totaux.ae_employeur_total, :precision => 2) -%><td/></tr>
@@ -21,4 +26,5 @@
 <tr><td>FSS:</td>       <td align="right"><%= number_with_precision(totaux.fss_employeur_total, :precision => 2) -%><td/></tr>
 <tr><td>CSST:</td>      <td align="right"><%= number_with_precision(totaux.csst_employeur_total, :precision => 2) -%><td/></tr>
 <tr><td>Rem. Dép:</td>  <td align="right"><%= number_with_precision(totaux.remb_depense_total, :precision => 2) -%><td/></tr>
+</tbody><tfoot/>
 </table>

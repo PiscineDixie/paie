@@ -41,9 +41,15 @@ class FeuillesController < ApplicationController
   # POST /feuilles
   # POST /feuilles.xml
   def create
+    
     jourVal = params[:feuille].delete(:jours)
     periode = params[:feuille][:periode] = Date.parse(params[:feuille].delete(:periode))
     params[:feuille][:heures] =  Feuille.getHeures(periode, jourVal) unless jourVal.nil?
+      
+    if (params[:cancel])
+      backToFeuilleGroupe(periode)
+      return;
+    end
 
     @feuille = Feuille.new(params.require(:feuille).permit!)
     if @feuille.save
@@ -59,6 +65,12 @@ class FeuillesController < ApplicationController
   # PUT /feuilles/1.xml
   def update
     @feuille = validateBelongsToEmploye(Feuille.find(params[:id]))
+      
+    if (params[:cancel])
+      redirect_to(@feuille)
+      return;
+    end
+    
     heures = Feuille.getHeures(@feuille.periode, params[:feuille][:jours])
     if Feuille.heuresValidations(@feuille, heures)
       @feuille.heures = heures;

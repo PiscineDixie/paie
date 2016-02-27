@@ -48,8 +48,8 @@ class FeuilleGroupesController < ApplicationController
   # params[:debut] - date du debut du rapport
   # params[:fin] - dernier jour inclus dans rapport
   def heures
-    debut = Date.new(params['debut']['year'].to_i, params['debut']['month'].to_i, params['debut']['day'].to_i)
-    fin   = Date.new(params['fin']['year'].to_i, params['fin']['month'].to_i, params['fin']['day'].to_i).tomorrow
+    debut = Date.parse(params['debut'])
+    fin   = Date.parse(params['fin']).tomorrow
     @ra = RapportActivites.new(debut, fin)
     #render(:layout => 'vide')
   end

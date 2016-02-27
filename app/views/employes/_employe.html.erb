@@ -1,69 +1,86 @@
 
-<%= form_for(@employe) do |f| %>
+<%= form_for(@employe, {html: {class: 'form-horizontal'}}) do |f| %>
 
  <%= f.error_messages %>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-4">Prénom</label>
+    <div class="col-sm-3"><%= f.text_field :prenom, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-4">Nom</label>
+    <div class="col-sm-3"><%= f.text_field :nom, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
+  
+    <div class="form-group">
+    <label class="control-label col-sm-4">Etat</label>
+      <div class="col-sm-3"><%= f.select :etat, Employe::Etats, {}, {readonly: readonly, class:'form-control'} %></div>
+  </div>
 
-  <table>
-    <tr>
-      <td>Prénom</td>
-      <td><%= f.text_field :prenom, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td>Nom</td>
-      <td><%= f.text_field :nom, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td>Etat</td>
-      <td><%= f.select :etat, Employe::Etats %></td>
-    </tr>
-    <tr>
-      <td>Adresse</td>
-      <td><%= f.text_field :adresse1, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td>Adresse</td>
-      <td><%= f.text_field :adresse2, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td>Adresse</td>
-      <td><%= f.text_field :adresse3, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td>NAS</td>
-      <td><%= f.text_field :nas, :size => 9 %></td>
-    </tr>
-    <tr>
-      <td>Courriel</td>
-      <td><%= f.text_field :courriel, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td>Expédié courriel par paie?</td>
-      <td><%= f.select :courriel_sommaire, {'oui' => 1, 'non' => 0}, :selected => (@employe.courriel_sommaire ? 1 : 0) %></td>
-    </tr>
-    <tr>
-      <td>Date de naissance</td>
-      <td><%= f.date_select :naissance, :start_year => Date.today.year - 30, :end_year => Date.today.year - 14 %></td>
-    </tr>
-    <tr>
-      <td>Salaire horaire</td>
-      <td><%= f.text_field :salaire_horaire, :size => 5 %></td>
-    </tr>
-    <tr>
-      <td>Exempte d'impôt</td>
-      <td><%= f.select :exempte_impot, {'oui' => 1, 'non' => 0}, :selected => (@employe.exempte_impot ? 1 : 0) %></td>
-    </tr>
-    <tr>
-      <td>Exemption impôt fédéral (TD1) </td>
-      <td><%= f.text_field :exemption_fed, :size => 5 %></td>
-    </tr>
-    <tr>
-      <td>Exemption impôt provincial (TP-1015.3) </td>
-      <td><%= f.text_field :exemption_prov, :size => 5 %></td>
-    </tr>
+    <div class="form-group">
+    <label class="control-label col-sm-4">Adresse</label>
+      <div class="col-sm-3"><%= f.text_field :adresse1, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Adresse</label>
+      <div class="col-sm-3"><%= f.text_field :adresse2, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Adresse</label>
+      <div class="col-sm-3"><%= f.text_field :adresse3, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
+
+   <div class="form-group">
+    <label class="control-label col-sm-4">NAS</label>
+      <div class="col-sm-3"><%= f.text_field :nas, :size => 9, readonly: readonly, class:'form-control' %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Courriel</label>
+      <div class="col-sm-3"><%= f.text_field :courriel, :size => 20, readonly: readonly, class:'form-control' %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Expédié courriel par paie?</label>
+      <div class="col-sm-3">
+        <%= f.select(:courriel_sommaire, {'oui' => 1, 'non' => 0}, {selected: (@employe.courriel_sommaire ? 1 : 0)}, {readonly: readonly, class:'form-control'}) %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Date de naissance</label>
+      <div class="col-sm-3"><%= f.text_field :naissance, type: 'date', readonly: readonly, class:'form-control' %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Salaire horaire</label>
+      <div class="col-sm-3">
+        <%= number_field_tag('salaire_horaire', 
+          number_with_precision(@employe.salaire_horaire, :precision => 2),
+          :size => 5, step: 0.01, readonly: readonly, class:'form-amount form-control') %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Exempte d'impôt</label>
+      <div class="col-sm-3"><%= f.select(:exempte_impot, {'oui' => 1, 'non' => 0}, {selected: (@employe.exempte_impot ? 1 : 0)}, {readonly: readonly, class:'form-control'}) %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Exemption impôt fédéral (TD1) </label>
+      <div class="col-sm-3"><%= f.number_field :exemption_fed, :size => 5, readonly: readonly, class:'form-amount form-control' %></div>
+  </div>
+
+    <div class="form-group">
+    <label class="control-label col-sm-4">Exemption impôt provincial (TP-1015.3) </label>
+      <div class="col-sm-3"><%= f.number_field :exemption_prov, :size => 5, readonly: readonly, class:'form-amount form-control' %></div>
+  </div>
+
+<% unless readonly %>
+    <%= f.submit button_name, :class => "btn btn-primary" %>
+    <%= f.submit( 'Annuler', {name: 'cancel', class: "btn btn-default"}) %>
+<% end %>
     
-  </table>
-  <p>
-    <%= f.submit button_name, :class => "submit" %>
-  </p>
 <% end %>
 

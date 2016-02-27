@@ -1,8 +1,4 @@
 <h1>Modifier employeur</h1>
 
+<%= render partial: @employeur, locals: { button_name: "Enregistrer", readonly: false} %>
 
-
-<%= render :partial => @employeur, :locals => { :button_name => "Enregistrer"} %>
-
-
-<%= link_to 'Afficher', @employeur %>

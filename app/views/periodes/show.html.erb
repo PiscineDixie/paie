@@ -1,10 +1,32 @@
 <h1>Période de paie du <%= @periode.debut -%></h1>
 
-<table>
-  <tr><th>Nom</th><th>Chèque</th><th>Total</th><th>Net</th><th>Remb. Dép.</th><th>Ajust. Hrs</th><th>Autre Gain</th><th>Heures</th><th>Paie</th><th>Feuille de Temps</th></tr>
+
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+<% unless @periode.locked %>
+      <li><%= link_to 'Modifier', edit_periode_path(@periode) %></li>
+      <li><%= link_to 'Calculer', calculer_periode_path(@periode) %></li>
+<% end %>
+      <% if Employeur.instance.cheques? %>
+        <li><%= link_to 'Impression des chèques', cheques_periode_path(@periode) %></li>
+      <% end %>
+      <li><%= link_to 'Courriels des relevés', employeCourriels_periode_path(@periode), method: :post %></li>
+      <li><%= link_to 'Sommaire', sommaire_periode_path(@periode) %></li>
+      <li><%= link_to 'Transactions du GL', gl_periode_path(@periode) %></li>
+      <li><%= link_to 'Retour', periodes_path %></li>
+   </ul>
+  </nav>
+
+<div class="table-responsive">  
+<table class="table table-condensed table-hover">
+  <thead><tr><th>Nom</th><th>Chèque</th><th class="text-right">Total</th><th class="text-right">Net</th><th class="text-right">Remb. Dép.</th><th class="text-right">Ajust. Hrs</th><th class="text-right">Autre Gain</th><th class="text-right">Heures</th><th>Feuille de Temps</th></tr></thead>
     <% for @paie in @periode.paies %>
       <tr>
-        <td><%= @paie.nom_employe %></td>
+          <% if not @paie.id.nil? %>
+            <td><%= link_to @paie.nom_employe, [@periode, @paie] %></td>
+          <% else %>
+            <td><%= @paie.nom_employe %></td>
+          <% end %>
         <td>
           <%= @paie.cheque_no %>
         </td>
@@ -27,17 +49,13 @@
           <%= number_with_precision(@paie.heures, :precision => 2) %>
         </td>
         <td>
-          <% if not @paie.id.nil? %>
-            <%= link_to 'Détails', [@periode, @paie] %>
-          <% end %>
-        </td>
-        <td>
           <% if not @paie.feuille_id.nil? %>
-            <%= link_to 'Afficher', { :controller => '/feuilles', :action => 'show', :id => @paie.feuille_id} %>
+            <%= link_to 'Afficher', { :controller => '/feuilles', :action => 'show', :id => @paie.feuille_id}, {class: "text-center"} %>
           <% end %>
         </td>
       </tr>
     <% end %>
+  <tfoot>
   <tr>
     <td>Totaux:</td>
     <td/>
@@ -49,18 +67,8 @@
     <td align="right"><%= number_with_precision(@periode.heures_total, :precision => 2) %></td>
     <td></td>
   </tr>
+  </tfoot>
 </table>
-
+</div>
 <%= render :partial => 'totaux', :object => @periode %>
 
-<% unless @periode.locked %>
-  <%= link_to 'Modifier', edit_periode_path(@periode) %> |
-  <%= link_to 'Calculer', calculer_periode_path(@periode) %> |
-<% end %>
-<% if Employeur.instance.cheques? %>
-  <%= link_to 'Impression des chèques', cheques_periode_path(@periode) %> |
-<% end %>
-<%= link_to 'Courriels des relevés', employeCourriels_periode_path(@periode), method: :post %> |
-<%= link_to 'Sommaire', sommaire_periode_path(@periode) %> |
-<%= link_to 'Transactions du GL', gl_periode_path(@periode) %> |
-<%= link_to 'Retour', periodes_path %>

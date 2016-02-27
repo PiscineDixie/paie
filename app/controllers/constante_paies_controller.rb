@@ -33,6 +33,11 @@ class ConstantePaiesController < ApplicationController
   def create
     @constante_paie = ConstantePaie.new(constante_paie_params())
 
+    if (params[:cancel])
+      redirect_to(@constante_paie)
+      return;
+    end
+    
     respond_to do |format|
       if @constante_paie.save
         flash[:notice] = 'ConstantePaie was successfully created.'
@@ -50,6 +55,11 @@ class ConstantePaiesController < ApplicationController
   def update
     @constante_paie = ConstantePaie.find(params[:id])
 
+    if (params[:cancel])
+      redirect_to(@constante_paie)
+      return;
+    end
+    
     respond_to do |format|
       if @constante_paie.update(constante_paie_params())
         flash[:notice] = 'ConstantePaie was successfully updated.'

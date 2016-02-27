@@ -5,19 +5,27 @@
      Si la feuille a deja ete utilisee pour une paie, elle ne peut etre modifiee.
  -->
 
-<table>
-  <tr><th>Nom</th><th>Total heures</th><th></th><th></th><th></th></tr>
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+     <li><%= link_to 'Sommaire', { :action => "sommaire", :id => @feuille_groupe.debut }%></li>
+     <li><%= link_to 'Gel des employés edit', employeLock_feuille_groupe_path(@feuille_groupe.debut), :method => :post %></li>
+     <li><%= link_to 'Dégel des employés edit', employeUnlock_feuille_groupe_path(@feuille_groupe.debut), :method => :post %></li>
+   </ul>
+  </nav>
+        
+<table class="table">
+  <tr><th>Nom</th><th style="text-align:right">Total heures</th><th></th><th></th><th></th></tr>
   <% for @feuille in @feuille_groupe.feuilles %>
     <tr>
       <td><%= @feuille.nom %></td>
-      <td align="right"><%= number_with_precision(@feuille.totalHeures, :precision => 2) %></td>
+      <td style="text-align:right"><%= number_with_precision(@feuille.totalHeures, :precision => 2) %></td>
       <% if @feuille.id.nil? %>
         <td><%= link_to 'Ajouter', { :controller => '/feuilles', :action => "new", :employe_id => @feuille.employe_id, :periode => @feuille_groupe.debut }%></td>
       <% else %>
         <td><%= link_to 'Afficher', { :controller => '/feuilles', :action => "show", :id => @feuille.id }%></td>
         <% unless @feuille.locked %>
           <td><%= link_to 'Modifier', { :controller => '/feuilles', :action => "edit", :id => @feuille.id }%></td>
-          <td><%= link_to 'Enlever', { :controller => '/feuilles', :action => "destroy", :id => @feuille.id}, :confirm => 'Etes-vous certain?', :method => :delete%></td>
+          <td><%= link_to 'Enlever', { :controller => '/feuilles', :action => "destroy", :id => @feuille.id}, data: {confirm: 'Etes vous certain?'}, :method => :delete%></td>
         <% end %>
           <td><%= link_to 'Sommaire', { :controller => '/feuilles', :action => "sommaire", :id => @feuille.id }%></td>
       <% end%>
@@ -28,8 +36,3 @@
     <td align="right"><%= number_with_precision(@feuille_groupe.totalHeures, :precision => 2) %></td>
   </tr>
 </table>
-
-<%= link_to 'Sommaire', { :action => "sommaire", :id => @feuille_groupe.debut }%> |
-<%= link_to 'Gel des employés edit', employeLock_feuille_groupe_path(@feuille_groupe.debut), :method => :post %> |
-<%= link_to 'Dégel des employés edit', employeUnlock_feuille_groupe_path(@feuille_groupe.debut), :method => :post %> |
-<%= link_to 'Retour', { :action => "index", :id => @feuille_groupe.debut } %>

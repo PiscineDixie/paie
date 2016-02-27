@@ -1,49 +1,6 @@
 <h1>L'employeur</h1>
-<p>
-  <b>Nom:</b>
-  <%= @employeur.nom %>
-</p>
 
-<p>
-  <b>Adresse1:</b>
-  <%= @employeur.adresse1 %>
-</p>
+<%= render partial: @employeur, locals: { readonly: true} %>
 
-<p>
-  <b>Adresse2:</b>
-  <%= @employeur.adresse2 %>
-</p>
+<%= button_to 'Modifier', edit_employeur_path(@employeur), {method: :get, class: "btn btn-primary"} %>
 
-<p>
-  <b>Adresse3:</b>
-  <%= @employeur.adresse3 %>
-</p>
-
-<p>
-  <b>Numéro d'entreprise:</b>
-  <%= @employeur.numero_entreprise %>
-</p>
-
-<p>
-  <b>Date du début de la première période de paie de l'année:</b>
-  <%= @employeur.debut_paie %>
-</p>
-
-<p>
-  <b>Date du début de la dernière période de paie de l'année:</b>
-  <%= @employeur.fin_paie %>
-</p>
-
-<p>
-  <b>Semaines par période de paie:</b>
-  <%= @employeur.semaines_par_paie %>
-</p>
-
-<p>
-  <b>Prochain numéro de chèque:</b>
-  <%= @employeur.prochain_no_cheque %>
-</p>
-
-
-
-<%= link_to 'Modifier', edit_employeur_path(@employeur) %>

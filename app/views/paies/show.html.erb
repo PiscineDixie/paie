@@ -1,78 +1,84 @@
 <h1>Détails d'une Paie</h1>
 
-<p>
-  <b>Nom:</b>
-  <%= @paie.nom_employe %>
-</p>
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+     <li><%= button_to('Expédier courriel', releveCourriel_periode_paie_path(@periode,@paie), {class: "btn btn-default navbar-btn"}) %></li>
+     <% if @paie.cheque_no || 0 > 0 %>
+       <li><%= link_to 'Impression du chèque', {:controller => 'periodes', :action => 'cheques', :id => @paie.periode_id, :format => :pdf, :paie_id => @paie.id} %></li>
+     <% end %>
+   </ul>
+  </nav>
+        
 
-<p>
-  <b>Chèque no.:</b>
-  <%= @paie.cheque_no %>
-</p>
+<div class="form-horizontal">
+<div class="form-group">
+    <label class="control-label col-sm-3">Nom</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= @paie.nom_employe %></p></div>
+  </div>
 
-<p>
-  <b>Remboursement de dépenses:</b>
-  <%= number_with_precision(@paie.remb_depense, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Chèque no.</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= @paie.cheque_no %></p></div>
+  </div>
 
-<p>
-  <b>Ajustement d'heures:</b>
-  <%= number_with_precision(@paie.ajustement_heures, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Remboursement de dépenses</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.remb_depense, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Autre gain imposable:</b>
-  <%= number_with_precision(@paie.autre_gain_imposable, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Ajustement d'heures</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.ajustement_heures, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Vacances:</b>
-  <%= number_with_precision(@paie.vacances, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Autre gain imposable</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.autre_gain_imposable, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Salaire brut:</b>
-  <%= number_with_precision(@paie.brut, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Vacances</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.vacances, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Salaire net:</b>
-  <%= number_with_precision(@paie.net, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Salaire brut</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.brut, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Déduction A-E:</b>
-  <%= number_with_precision(@paie.ae, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Salaire net</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.net, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Déduction RRQ:</b>
-  <%= number_with_precision(@paie.rrq, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Déduction A-E</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.ae, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Déduction RQAP:</b>
-  <%= number_with_precision(@paie.rqap, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Déduction RRQ</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.rrq, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Impôt fédéral:</b>
-  <%= number_with_precision(@paie.impot_fed, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Déduction RQAP</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.rqap, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Impôt provincial:</b>
-  <%= number_with_precision(@paie.impot_prov, :precision => 2) %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Impôt fédéral</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.impot_fed, :precision => 2) %></p></div>
+  </div>
 
-<p>
-  <b>Note:</b>
-  <%= @paie.note %>
-</p>
+<div class="form-group">
+    <label class="control-label col-sm-3">Impôt provincial</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= number_with_precision(@paie.impot_prov, :precision => 2) %></p></div>
+  </div>
 
-<%= link_to 'Expédier courriel', releveCourriel_periode_paie_path(@periode,@paie), method: :post %> |
-<% if @paie.cheque_no || 0 > 0 %>
-  <%= link_to 'Impression du chèque', {:controller => 'periodes', :action => 'cheques', :id => @paie.periode_id, :format => :pdf, :paie_id => @paie.id} %> |
-<% end %>
-<%= link_to 'Back', :back %>
+<div class="form-group">
+    <label class="control-label col-sm-3">Note</label>
+    <div class="col-sm-3"><p class="form-control-static"><%= @paie.note %></p></div>
+  </div>
 
+</div>

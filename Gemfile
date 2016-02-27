@@ -10,31 +10,30 @@ gem 'prawn'
 gem 'dynamic_form', '~> 1.1'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
 gem 'yui-compressor'
-
-# Gems used only for assets and not required
-# in production environments by default.
-#group :assets do
-#  gem 'sass-rails',   '~> 3.2.3'
-#  gem 'coffee-rails', '~> 3.2.1'
-#end
+gem 'turbolinks'
+gem 'jquery-rails'
+gem "twitter-bootstrap-rails"
+gem 'autoprefixer-rails'
+gem 'node'
+gem 'rails-i18n'
 
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'byebug'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-passenger'
+  gem 'capistrano-bundler'
 end
 
-gem 'jquery-rails'
+gem 'unicorn'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-

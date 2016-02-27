@@ -1,14 +1,17 @@
-<h1>Mon dossier</h1>
 
 <h2>Mes feuilles de temps</h2>
-<table>
-<tr><th>Période</th><th>Tot heures</th><th/><th/>
+<div class="table-responsive">
+<table style="max-width:40em;" class="table table-hover">
+<thead><tr><th>Période</th><th class="text-right">Tot heures</th><th/><th/></tr></thead>
 <% @feuilles.each do | periode, f | %>
   <tr>
     <td><%= f.debut %> au <%= f.dernierJour %> </td>
     <% if f.id.nil? %>
       <td align="right">N/A</td>
-      <td><%= link_to 'Ajouter', { :controller => '/feuilles', :action => "new", :employe_id => @employe.id, :periode => periode }%></td>
+      <td><%= link_to('Ajouter',
+       { :controller => '/feuilles', :action => "new", :employe_id => @employe.id, :periode => periode },
+       {class: 'btn btn-xs ' + (f.includesToday? ? 'btn-primary' : 'btn-default') })%></td>
+      <td/>
     <% else %>
       <td align="right"><%= number_with_precision(f.totalHeures, :precision => 2) %></td>
       <% unless f.locked || f.empl_locked %>
@@ -21,3 +24,4 @@
   </tr>
 <% end %>
 </table>
+</div>

@@ -1,13 +1,16 @@
 <!-- Partial pour afficher les heures travaillees sous forme de matrice
      L'objet est de type MatriceHeures -->
 
-<table border="1">
+<table class="table table-condensed table-bordered">
+  <thead>
   <tr>
     <th>Heure</th>
     <% matrice_heures.dates.each do | d | %>
        <th><%= d.strftime('%a')%> <br /><%= d.month.to_s+'-'+d.day.to_s %></th>
     <% end %>
   </tr>
+  </thead>
+  <tbody>
   <% matrice_heures.heures.each do | hs | %>
     <tr>
       <td><%= hs.to_s+":00" %></td>
@@ -20,4 +23,5 @@
       <% end %>
     </tr>
   <% end %>
+  </tbody>
 </table>

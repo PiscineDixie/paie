@@ -54,6 +54,11 @@ class PaiesController < ApplicationController
   # POST /paies
   # POST /paies.xml
   def create
+    if (params[:cancel])
+      redirect_to(paies_url)
+      return;
+    end
+    
     @paie = @periode.paies.new(paie_params())
 
     respond_to do |format|
@@ -73,6 +78,11 @@ class PaiesController < ApplicationController
   def update
     @paie = @periode.paies.find(params[:id])
 
+    if (params[:cancel])
+      redirect_to(@paie)
+      return;
+    end
+    
     respond_to do |format|
       if @paie.update_attributes(paie_params())
         flash[:notice] = 'Paie mise à jour.'

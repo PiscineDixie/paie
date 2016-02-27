@@ -1,91 +1,112 @@
 
-<%= form_for(@constante_paie) do |f| %>
+<%= form_for(@constante_paie, {class: "form-horizontal"}) do |f| %>
 
  <%= f.error_messages %>
 
-<h2>Impôt fédéral</h2>
-<table>
-  <tr><th>Revenu Annuel</th><th>Taux R</th><th>Cte K</th></tr>
-  <tr>
-    <td>jusqu'à <%=f.text_field :impFedI1, :size => 6 %></td>
-    <td><%= f.text_field :impFedR1, :size => 5 %></td>
-    <td><%= f.text_field :impFedK1, :size => 5 %></td>
-  </tr>
-  <tr>
-    <td>jusqu'à <%= f.text_field :impFedI2, :size => 6 %></td>
-    <td><%=  f.text_field :impFedR2, :size => 5 %></td>
-    <td><%=  f.text_field :impFedK2, :size => 5 %></td>
-  </tr>
-  <tr>
-    <td>jusqu'à <%= f.text_field :impFedI3, :size => 6 %></td>
-    <td><%= f.text_field :impFedR3, :size => 5 %></td>
-    <td><%= f.text_field :impFedK3, :size => 5 %></td>
-  </tr>
-  <tr>
-    <td>et plus</td>
-    <td><%= f.text_field :impFedR4, :size => 5 %></td>
-    <td><%= f.text_field :impFedK4, :size => 5 %></td>
-  </tr>
-</table>
-<b>Déduction de base: </b><%= f.text_field :deductionBaseFed, :size => 5 %><br/>
+<h4>Impôt fédéral</h4>
+  <div class="form-inline">
+    <div class="row">
+      <div class="col-sm-3"><label>Revenu Annuel</label></div>
+      <div class="col-sm-2"><label>Taux</label></div>
+      <div class="col-sm-2"><label>Cte K</label></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">jusqu'à</label><%=f.text_field :impFedI1, :size => 6, readonly: readonly, class: 'form-control'  %></div></div>
+      <div class="col-sm-2"><%= f.text_field :impFedR1, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impFedK1, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">jusqu'à</label><%=f.text_field :impFedI2, :size => 6, readonly: readonly, class: 'form-control'  %></div></div>
+      <div class="col-sm-2"><%= f.text_field :impFedR2, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impFedK2, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">jusqu'à</label><%=f.text_field :impFedI3, :size => 6, readonly: readonly, class: 'form-control'  %></div></div>
+      <div class="col-sm-2"><%= f.text_field :impFedR3, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impFedK3, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">et plus</label></div></div>
+      <div class="col-sm-2"><%= f.text_field :impFedR4, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impFedK4, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    
+   <div class="form-group"><label class="col-sm-8">Déduction de base</label><%= f.text_field :deductionBaseFed, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+  </div>
 
-<h2>Impôt provincial</h2>
-<table>
-  <tr><th>Revenu Annuel</th><th>Taux T</th><th>Cte K</th></tr>
-  <tr>
-    <td>jusqu'à <%= f.text_field :impProvI1, :size => 6  %></td>
-    <td><%= f.text_field :impProvT1, :size => 5  %></td>
-    <td><%= f.text_field :impProvK1, :size => 5  %></td>
-  </tr>
-  <tr>
-    <td>jusqu'à <%= f.text_field :impProvI2, :size => 6  %></td>
-    <td><%= f.text_field :impProvT2, :size => 5  %></td>
-    <td><%= f.text_field :impProvK2, :size => 5  %></td>
-  </tr>
-  <tr>
-    <td>et plus</td>
-    <td><%= f.text_field :impProvT3, :size => 5  %></td>
-    <td><%= f.text_field :impProvK3, :size => 5  %></td>
-  </tr>
-</table>
-<b>Déduction de base: </b><%= f.text_field :deductionBaseProv, :size => 5  %><br/>
+  <h4>Impôt provincial</h4>
+  <div class="form-inline">
+    <div class="row">
+      <div class="col-sm-3"><label>Revenu Annuel</label></div>
+      <div class="col-sm-2"><label>Taux</label></div>
+      <div class="col-sm-2"><label>Cte K</label></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">jusqu'à</label><%=f.text_field :impProvI1, :size => 6, readonly: readonly, class: 'form-control'  %></div></div>
+      <div class="col-sm-2"><%= f.text_field :impProvT1, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impProvK1, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">jusqu'à</label><%=f.text_field :impProvI2, :size => 6, readonly: readonly, class: 'form-control'  %></div></div>
+      <div class="col-sm-2"><%= f.text_field :impProvT2, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impProvK2, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"><div class="form-group"><label class="col-sm-6">et plus</label></div></div>
+      <div class="col-sm-2"><%= f.text_field :impProvT3, :size => 5, readonly: readonly, class: 'form-control' %></div>
+      <div class="col-sm-2"><%= f.text_field :impProvK3, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+    </div>
+    
+   <div class="form-group"><label class="col-sm-8">Déduction de base</label><%= f.text_field :deductionBaseProv, :size => 5, readonly: readonly, class: 'form-control'  %></div>
+  </div>
 
-<h2>Assurance-emploi</h2>
-<table>
-<tr><td>Taux de l'employé: </td><td><%=  f.text_field :aeTauxEmploye, :size => 5  %></td></tr>
-<tr><td>Maximum annuel de l'employé: </td><td><%=  f.text_field :aeMaximumEmploye, :size => 5  %></td></tr>
-<tr><td>Maximum gains assurables: </td><td><%=  f.text_field :aeMaximumGainAssurable, :size => 5  %></td></tr>
-<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :aeTauxEmployeur, :size => 5  %></td></tr>
-</table>
+<h4>Assurance-emploi</h4>
+<div class="row"><div class="col-sm-6">
+<div class="form-horizontal">
+<div class="form-group"><label class="col-sm-6">Taux de l'employé</label><div class="col-sm-3"><%=  f.text_field :aeTauxEmploye, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Maximum annuel de l'employé</label><div class="col-sm-3"><%=  f.text_field :aeMaximumEmploye, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Maximum gains assurables</label><div class="col-sm-3"><%=  f.text_field :aeMaximumGainAssurable, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Taux de l'employeur</label><div class="col-sm-3"><%=  f.text_field :aeTauxEmployeur, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+</div>
+</div></div>
 
-<h2>Régime de retraite</h2>
-<table>
-<tr><td>Taux de l'employé: </td><td><%=  f.text_field :rrqTauxEmploye, :size => 5  %></td></tr>
-<tr><td>Maximum annuel de l'employé: </td><td><%=  f.text_field :rrqMaximumEmploye, :size => 5  %></td></tr>
-<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :rrqTauxEmployeur, :size => 5  %></td></tr>
-<tr><td>Exemption de l'employé: </td><td><%=  f.text_field :rrqExemptionEmploye, :size => 5  %></td></tr>
-</table>
+<h4>Régime de retraite</h4>
+<div class="row"><div class="col-sm-6">
+<div class="form-horizontal">
+<div class="form-group"><label class="col-sm-6">Taux de l'employé</label><div class="col-sm-3"><%=  f.text_field :rrqTauxEmploye, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Maximum annuel de l'employé</label><div class="col-sm-3"><%=  f.text_field :rrqMaximumEmploye, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Taux de l'employeur</label><div class="col-sm-3"><%=  f.text_field :rrqTauxEmployeur, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Exemption de l'employé</label><div class="col-sm-3"><%=  f.text_field :rrqExemptionEmploye, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+</div>
+</div></div>
 
-<h2>Régime assurance parentale</h2>
-<table>
-<tr><td>Taux de l'employé: </td><td><%=  f.text_field :rqapTauxEmploye, :size => 7  %></td></tr>
-<tr><td>Maximum annuel de l'employé: </td><td><%=  f.text_field :rqapMaximumEmploye, :size => 5  %></td></tr>
-<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :rqapTauxEmployeur, :size => 5  %></td></tr>
-</table>
+<h4>Régime assurance parentale</h4>
+<div class="row"><div class="col-sm-6">
+<fieldset class="form-horizontal">
+<div class="form-group"><label class="col-sm-6">Taux de l'employé</label><div class="col-sm-3"><%=  f.text_field :rqapTauxEmploye, :size => 7, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Maximum annuel de l'employé</label><div class="col-sm-3"><%=  f.text_field :rqapMaximumEmploye, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+<div class="form-group"><label class="col-sm-6">Taux de l'employeur</label><div class="col-sm-3"><%=  f.text_field :rqapTauxEmployeur, :size => 5, readonly: readonly, class: 'form-control'   %></div></div>
+</fieldset>
+</div></div>
 
-<h2>Fond de la santé</h2>
-<table>
-<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :fssTauxEmployeur, :size => 7  %></td></tr>
-</table>
+<h4>Fond de la santé</h4>
+<div class="row"><div class="col-sm-6">
+<div class="form-horizontal">
+<div class="form-group"><label class="col-sm-6">Taux de l'employeur</label><div class="col-sm-3"><%=  f.text_field :fssTauxEmployeur, :size => 7, readonly: readonly, class: 'form-control'   %></div></div>
+</div>
+</div></div>
 
-<h2>CSST</h2>
-<table>
-<tr><td>Taux de l'employeur: </td><td><%=  f.text_field :csstTauxEmployeur, :size => 7  %></td></tr>
-</table>
+<h4>CSST</h4>
+<div class="row"><div class="col-sm-6">
+<div class="form-horizontal">
+<div class="form-group"><label class="col-sm-6">Taux de l'employeur</label><div class="col-sm-3"><%=  f.text_field :csstTauxEmployeur, :size => 7, readonly: readonly, class: 'form-control'   %></div></div>
+</div>
+</div></div>
 
-<p>
-  <%= f.submit button_name, :class => "submit" %>
-</p>
+<% unless readonly %>
+    <%= f.submit button_name, :class => "btn btn-primary" %>
+    <%= f.submit( 'Annuler', {name: 'cancel', class: "btn btn-default"}) %>
+<% end %>
 
 <% end %>
 

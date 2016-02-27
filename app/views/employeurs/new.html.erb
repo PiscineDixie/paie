@@ -1,7 +1,3 @@
 <h1>Nouvel employeur</h1>
 
- <%= f.error_messages %>
-
-
-<%= render :partial => @employeur, :locals => { :button_name => "Enregistrer"} %>
-
+<%= render partial: @employeur, locals: { button_name: "Enregistrer", readonly: false} %>

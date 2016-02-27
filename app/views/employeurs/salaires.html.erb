@@ -6,7 +6,8 @@
 
 <h1>Rapports des salaires du <%= @debut -%> au <%= @fin -%></h1>
 
-<table>
+<table class="table table-condensed table-striped">
+  <thead>
   <tr>
     <th>Nom</th>
     <th>Salaire</th>
@@ -19,13 +20,15 @@
     <th>AE</th>
     <th>RQAP</th>
   </tr>
-  
+  </thead>
+  <tbody>
 <% Employe.all.each do | empl | %>
   <% if empl.paies_range(@debut, @fin, :brut) > 0 %>
     <%= render :partial => 'salaires', :object => empl, :locals => {:debut => @debut, :fin => @fin} %>
   <% end %>
 <% end %>
-
+</tbody>
+<tfoot>
   <tr>
     <td>Totaux:</td>
     <td></td>
@@ -38,6 +41,6 @@
     <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :ae), :precision => 2) %></td>
     <td align="right"><%= number_with_precision(@employeur.paies_range(@debut, @fin, :rqap), :precision => 2) %></td>
   </tr>
-
+</tfoot>
 </table>
 
