@@ -19,12 +19,12 @@ Paieapp::Application.configure do
   config.action_mailer.delivery_method = :smtp
   #config.action_mailer.delivery_method = :test
   config.action_mailer.smtp_settings = {
-        :address              => "smtp.gmail.com",
+        :address              => Rails.application.secrets[:smtp]["address"],
         :port                 => 587,
-        :domain               => 'piscinedixiepool.com',
-        :user_name            => 'archives@piscinedixiepool.com',
-        :password             => 'dixie45',
-        :authentication       => 'plain',
+        :domain               => Rails.application.secrets[:smtp]["domain"],
+        :user_name            => Rails.application.secrets[:smtp]["user"],
+        :password             => Rails.application.secrets[:smtp]["password"],
+        :authentication       => :plain,
         :enable_starttls_auto => true
   }
     
