@@ -32,22 +32,12 @@ class Employe < ActiveRecord::Base
   def exempte_rrq(debut)
     # Est-ce que la derniere journee de la periode de paie est dans le mois suivant
     # le mois de l'anniversaire de l'employe de ses 18 ans. Si oui, exempte
-    return (debut + Employeur.instance.semaines_par_paie * 7 - 1).years_ago(18).prev_month < self.naissance
+    self.naissance.beginning_of_month.next_month.years_since(18) > debut
   end
   
-  # Calculer pour le T4 si l'employe etait exempte. On regarde la derniere periode ou
-  # l'employe a travaille. 
-  # Annee est un int ou string (.e.g "2008").
-  def exempte_rrq_t4(annee)
-    # Premierement obtenir la derniere periode de l'annee ou l'employe a travaille
-    anneeEnd = annee.to_s + '-12-30'
-    paie = Paie.
-      joins('as t inner join periodes as p on t.periode_id = p.id').
-      where("employe_id = :empl_id and debut < :endDate", {:empl_id => self.id, :endDate => anneeEnd}).
-      select('debut').
-      order('debut desc').take
-    debut = paie.nil? ? Date.new(annee.to_i, 12, 30) : paie.debut.to_date
-    return exempte_rrq(debut)
+  # Calculer pour le T4 si l'employe etait exempte.
+  def exempte_rrq_t4(annee = Date.today.year)
+    return rrq_salaire_annuel(annee) == 0
   end
   
   # Method pour retourner les feuilles pour l'employe pour une periode
@@ -58,14 +48,17 @@ class Employe < ActiveRecord::Base
        order(:periode)
   end
   
+  # Methode pour preparer une query pour les paie
+  def paies_range_query(debut, fin)
+    Paie.joins('inner join periodes on periodes.id = paies.periode_id').
+          where("employe_id = :empl_id and debut >= :minDate and debut <= :endDate", 
+            {:empl_id => self.id, :minDate => debut.to_s(:db), :endDate => fin.to_s(:db)})
+  end
+  
   # Method pour faire la somme d'une colonne pour un intervalle
   # Arguments de type Date
   def paies_range(debut, fin, colonne)
-    sum = Paie.
-      joins('inner join periodes on periodes.id = paies.periode_id').
-      where("employe_id = :empl_id and debut >= :minDate and debut <= :endDate", 
-        {:empl_id => self.id, :minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).
-      sum(colonne)
+    paies_range_query(debut, fin).sum(colonne)
   end
   
   # Methodes pour les donnees totaux d'une annee en particulier
@@ -117,6 +110,10 @@ class Employe < ActiveRecord::Base
 
   def rrq_annuel(annee = Date.today.year)
     paies_annuel(annee, :rrq)
+  end
+  
+  def rrq_salaire_annuel(annee = Date.today.year)
+    paies_range_query(Date.civil(annee, 1, 1), Date.civil(annee, 12, 30)).sum(:brut)
   end
   
   def rqap_annuel(annee = Date.today.year)

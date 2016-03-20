@@ -40,6 +40,7 @@ class RL1
         doc.draw_text sprintf("%10.2f", employe.ae_annuel(annee)), :at => [72.mm, 9.mm]
         doc.draw_text sprintf("%10.2f", employe.impot_prov_annuel(annee)), :at => [138.mm, 9.mm]
         # Deuxieme ligne
+        doc.draw_text sprintf("%10.2f", employe.rrq_salaire_annuel(annee)), :at => [6.mm, 1.mm]
         doc.draw_text sprintf("%10.2f", employe.rqap_annuel(annee)), :at => [38.mm, 1.mm]
       end
     end
@@ -71,6 +72,7 @@ class RL1
         doc.draw_text sprintf("%10.2f", employe.ae_annuel(annee)), :at => [81.mm, 9.mm]
         doc.draw_text sprintf("%10.2f", employe.impot_prov_annuel(annee)), :at => [147.mm, 9.mm]
         # Deuxieme ligne
+        doc.draw_text sprintf("%10.2f", employe.rrq_salaire_annuel(annee)), :at => [14.mm, 1.mm]
         doc.draw_text sprintf("%10.2f", employe.rqap_annuel(annee)), :at => [48.mm, 1.mm]
       end
     end
