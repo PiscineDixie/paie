@@ -113,7 +113,11 @@ class Employe < ActiveRecord::Base
   end
   
   def rrq_salaire_annuel(annee = Date.today.year)
-    paies_range_query(Date.civil(annee, 1, 1), Date.civil(annee, 12, 30)).sum(:brut)
+    debut = Date.civil(annee, 1, 1)
+    fin = debut.end_of_year
+    Paie.joins('inner join periodes on periodes.id = paies.periode_id').
+         where("employe_id = :empl_id and debut >= :minDate and debut <= :endDate and rrq > 0", 
+            {:empl_id => self.id, :minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).sum(:brut)
   end
   
   def rqap_annuel(annee = Date.today.year)
