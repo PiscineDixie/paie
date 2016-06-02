@@ -81,11 +81,11 @@
                 <% end %>
                 <% if ConstantePaie.instance %>
                       <li>
-                      <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'show', :id => ConstantePaie.instance.id %>
+                      <%= link_to  "Constantes de calcul",    :controller => '/constante_paies', :action => 'show', :id => ConstantePaie.instance.id %>
                       </li>
                   <% else %>
                       <li>
-                      <%= link_to  "Constantes de Calcul",    :controller => '/constante_paies', :action => 'new' %>
+                      <%= link_to  "Constantes de calcul",    :controller => '/constante_paies', :action => 'new' %>
                       </li>
                   <% end %>
                   <li><%= link_to  "Usagers",    :controller => '/users' %></li>

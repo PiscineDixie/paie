@@ -1,0 +1,18 @@
+
+
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <li><%= link_to 'Afficher', periode_path(periode) %></li>
+      <% unless periode.locked %>
+        <li><%= link_to 'Modifier', edit_periode_path(periode) %></li>
+        <li><%= link_to 'Calculer', calculer_periode_path(periode) %></li>
+      <% end %>
+      <% if Employeur.instance.cheques? %>
+        <li><%= link_to 'Impression des chèques', cheques_periode_path(periode) %></li>
+      <% end %>
+      <li><%= button_to('Expédier relevés', employeCourriels_periode_path(periode), {method: :post, class: "btn btn-default navbar-btn"}) %></li>
+      <li><%= link_to 'Sommaire', sommaire_periode_path(periode) %></li>
+      <li><%= link_to 'Transactions du GL', gl_periode_path(periode) %></li>
+      <li><%= link_to 'Retour', periodes_path %></li>
+   </ul>
+  </nav>

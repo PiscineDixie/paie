@@ -57,7 +57,7 @@
     <div class="form-group">
     <label class="control-label col-sm-4">Salaire horaire</label>
       <div class="col-sm-3">
-        <%= number_field_tag('salaire_horaire', 
+        <%= number_field_tag('employe[salaire_horaire]', 
           number_with_precision(@employe.salaire_horaire, :precision => 2),
           :size => 5, step: 0.01, readonly: readonly, class:'form-amount form-control') %></div>
   </div>

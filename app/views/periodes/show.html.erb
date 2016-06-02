@@ -1,21 +1,7 @@
 <h1>Période de paie du <%= @periode.debut -%></h1>
 
 
-  <nav class="navbar navbar-default">
-    <ul class="nav navbar-nav">
-<% unless @periode.locked %>
-      <li><%= link_to 'Modifier', edit_periode_path(@periode) %></li>
-      <li><%= link_to 'Calculer', calculer_periode_path(@periode) %></li>
-<% end %>
-      <% if Employeur.instance.cheques? %>
-        <li><%= link_to 'Impression des chèques', cheques_periode_path(@periode) %></li>
-      <% end %>
-      <li><%= link_to 'Courriels des relevés', employeCourriels_periode_path(@periode), method: :post %></li>
-      <li><%= link_to 'Sommaire', sommaire_periode_path(@periode) %></li>
-      <li><%= link_to 'Transactions du GL', gl_periode_path(@periode) %></li>
-      <li><%= link_to 'Retour', periodes_path %></li>
-   </ul>
-  </nav>
+<%= render partial: 'navbar', locals: { periode: @periode } %>
 
 <div class="table-responsive">  
 <table class="table table-condensed table-hover">

@@ -1,5 +1,7 @@
 <h1>Transactions du GL pour la période de paie du <%= @periode.debut -%></h1>
 
+<%= render partial: 'navbar', locals: { periode: @periode } %>
+
 <table style="width:30em" class="table table-condensed table-hover">
   <thead>
     <tr><th style="width:10em">Compte</th><th style="width:10em; text-align:right;">Débit</th><th style="width:10em;text-align:right;">Crédit</th></tr>
