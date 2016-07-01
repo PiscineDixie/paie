@@ -1,0 +1,27 @@
+<%
+=begin 
+%>
+# Creer un table "nom activite debut fin" pour chaque entree de @heures
+# @param @heures est un Array {nom: activite:, debut:, duree:}>
+#
+<%
+=end
+%>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Act</th><th>Nom</th><th>Début</th><th>Durée</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @heures.each do | hr | %>
+      <tr>
+        <td><%= hr[:activite] %></td>
+        <td><%= hr[:nom ] %></td>
+        <td class="text-right"><%= hr[:debut].strftime("%H:%M") %></td>
+        <td class="text-right"><%= sprintf("% 2d:%02d", hr[:duree] / 60, hr[:duree] % 60) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,7 +1,22 @@
 # coding: utf-8
 # Classe pour une periode d'heures travaillees pour une activite
+# Champs:
+#  debut: heure de debut (class DateTime). Interpeter comme l'heure locale
+#  duree: nombre de minutes (int)
+#  activite: code de l'activite durant cette periode (string)
+#  feuille_id: lien vers la feuille de l'employe
+#
+# Il y a une erreur en quelque part et les heures dans la database ne sont
+# pas en heure locale mais plutot en UTC-8. A l'heure de Montreal, si 12:00,
+# dans la database, on retrouve 8:00.
+#
+# Lorsqu'on relie, on lit l'heure comme si c'etait l'heure locale mais elle
+# a le timezone UTC. On change donc le timezone et on ajouter 4hr pour obtenir
+# une heure valide.
 #
 class Heure < ActiveRecord::Base
+  
+  @@zoneoffset = -8*3600 
   
 #  attr_accessible :activite, :debut, :duree
   
@@ -49,22 +64,22 @@ class Heure < ActiveRecord::Base
     
     # Extraire de la db tous les records pour l'interval donnee. Il faut
     # commencer au debut de la journee puisqu'il faut considerer la duree
-    debutJour = Time.utc(debut.year, debut.month, debut.day)
+    debutJour = debut.beginning_of_day.getlocal(@@zoneoffset)
+    finT = fin.getlocal(@@zoneoffset)
     if employe.nil?
       recs = Heure.where("debut >= :minDateTime and debut < :endDateTime",
-          {:minDateTime => debutJour, :endDateTime => fin})
+          {:minDateTime => debutJour.to_s(:db), :endDateTime => fin.to_s(:db)})
     else
       recs = Heure.
         joins('inner join feuilles as f on feuille_id = f.id').
         where('employe_id = :empl_id and debut >= :minDateTime and debut < :endDateTime',
-          {:empl_id => employe, :minDateTime => debutJour, :endDateTime => fin})
+          {:empl_id => employe, :minDateTime => debutJour.to_s(:db), :endDateTime => fin.to_s(:db)})
     end
     
-    debutT = debut.to_time
-    finT = fin.to_time
+    debutT = debut.getlocal(@@zoneoffset)
     recs.each do | hr |
-      hrDebT = hr.debut
-      hrFinT = hr.debut + hr.duree * 60
+      hrDebT = hr.debut.getlocal(-4*3600)+4*3600
+      hrFinT = hrDebT + hr.duree * 60
       duree = 0
       if hrDebT >= debutT && hrFinT < finT then  # comprise dans l'interval
         duree = hrFinT - hrDebT
@@ -86,6 +101,33 @@ class Heure < ActiveRecord::Base
       res.store(x, y/60.0)
     end
     res;
+  end
+  
+  # Retourner une liste des employes qui ont travailles
+  # @param debut (Time) pour le debut
+  # @param fin (Time) pour la fin
+  # @return Array<{}>
+  def self.auTravail(debut, fin)
+    # Sortir les heures
+    debutJour = debut.beginning_of_day.getlocal(@@zoneoffset)
+    finT = fin.getlocal(@@zoneoffset)
+    hrs = Heure.
+      joins("inner join feuilles as f on f.id = feuille_id").
+      joins("left join employes as e on e.id = f.employe_id").
+      where('debut >= :minDateTime and debut < :endDateTime',
+        {:minDateTime => debutJour.to_s(:db), :endDateTime => finT.to_s(:db)}).
+      pluck("e.prenom", "e.nom", "heures.activite", "heures.debut", "heures.duree")
+      
+    res = hrs.each_with_object([]) do | h, r|
+      hDeb = h[3].getlocal(-4*3600)+4*3600
+      next if hDeb > fin || hDeb + 60 * h[4] <= debut 
+      nom = h[0] + ' ' + h[1]
+      hr = {nom: nom, activite: h[2], debut: hDeb, duree: h[4]}
+      r << hr
+    end
+    
+    # Sort part activite
+    res.sort! { |r1,r2| r1[:activite] <=> r2[:activite] }
   end
   
   def to_s

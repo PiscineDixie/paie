@@ -1,21 +1,22 @@
 <!-- Partial pour afficher les heures travaillees sous forme de matrice
      L'objet est de type MatriceHeures -->
 
-<table class="table table-condensed table-bordered">
+<%= content_tag(:table, "data-debut": matrice_heures.debut, id: "sommaire-heures", class: "table table-condensed table-bordered") do -%>
   <thead>
-  <tr>
-    <th>Heure</th>
-    <% matrice_heures.dates.each do | d | %>
-       <th><%= d.strftime('%a')%> <br /><%= d.month.to_s+'-'+d.day.to_s %></th>
-    <% end %>
-  </tr>
+    <tr>
+      <th>Heure</th>
+      <% matrice_heures.dates.each do | d | %>
+         <th class="text-center"><%= d.strftime('%a')%> <br /><%= d.month.to_s+'-'+d.day.to_s %></th>
+      <% end %>
+    </tr>
   </thead>
+  
   <tbody>
   <% matrice_heures.heures.each do | hs | %>
     <tr>
-      <td><%= hs.to_s+":00" %></td>
+      <th><%= hs.to_s+":00" %></th>
       <% matrice_heures.dates.each do | d | %>
-        <td align="right">
+        <td class="text-right">
           <% matrice_heures.get(hs, d).each do | act, qte | %>
             <%= sprintf("%3.3s - %4.2f", act, qte) %><br/>
           <% end %>
@@ -24,4 +25,56 @@
     </tr>
   <% end %>
   </tbody>
-</table>
+  
+  <tfooter>
+    <tr>
+      <th>Total</th>
+      <% matrice_heures.dates.each do | d | %>
+         <th class="text-right"><%= number_with_precision(matrice_heures.total(d), precision:2) %></th>
+      <% end %>
+    </tr>
+  </tfooter>
+  
+<% end -%>
+
+<% if @feuille.nil? %>
+<script>
+$(document).ready(function() {
+  /* Ajouter un event handler pour faire des appels AJAX pour afficher ceux qui travaillaient a une heure specifique */
+  $("#sommaire-heures").on('click', 'td', function (event) {
+    var $cell = $(this).closest('td');
+    var jr = $cell[0].cellIndex;
+    var debut = $cell.closest('table').data('debut');
+    var date = new Date(debut);
+    date.setDate(date.getDate() + jr);
+    
+    var hr = parseInt($cell.siblings().first('th').text().split(':')[0])
+    date.setHours(hr);
+    
+    $('body').addClass('busy');
+    $.get('/heures/autravail', {debut: date}).done(function (data) {
+      /* Ouvrir un popup avec les donnes recues */
+     $cell.popover({
+       animation: false,
+       content: data, 
+       html: true, 
+       container: 'body',
+       placement: 'auto right'}).popover('show');
+       
+     /* event handler pour enlever le popover */
+     $('body').click(function() {
+       $cell.popover('destroy');
+     });
+     $('body').keyup(function() {
+       $cell.popover('destroy');
+     });
+     
+    }).always(function() {
+      $('body').removeClass('busy');
+    });
+    
+    event.preventDefault();
+  });
+});
+</script
+<% end %>

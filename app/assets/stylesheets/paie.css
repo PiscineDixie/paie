@@ -134,3 +134,15 @@ td.heading {
 .footer {
   margin-top: 40px;
 }
+
+/*
+ * Ajax
+ */
+.busy {
+  cursor: progress;
+}
+
+/* Matrice d'heures explication */
+.popover {
+  max-width: 30em;
+}

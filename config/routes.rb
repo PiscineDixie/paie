@@ -29,6 +29,8 @@ Paieapp::Application.routes.draw do
 
   get 'periodes/annees/:an' => 'periodes#annees'
   
+  get 'heures/autravail' => 'heures/autravail'
+  
   resources :feuilles do
     member do
       get 'sommaire'

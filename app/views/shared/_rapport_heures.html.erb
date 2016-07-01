@@ -13,13 +13,13 @@
     <tr>
       <td><%= cdh[0] %></td>
       <td><%= cdh[1] %></td>
-      <td><%= cdh[2] %></td>
+      <td class="text-right"><%= sprintf("%6.2f", cdh[2]) %></td>
     </tr>
   <% end %>
   <tr>
     <td></th>
     <td>Total</th>
-    <td><%= rapport_heures.total %></th>
+    <td class="text-right"><%= sprintf("%7.2f", rapport_heures.total) %></th>
   </tr>
 </table>
 </div>

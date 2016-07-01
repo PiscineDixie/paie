@@ -10,6 +10,8 @@ class MatriceHeures
   attr_reader :employe_id # Optionel. Sinon tous les employes
   attr_reader :debut, :fin # des objects Date
   
+  @@zoneoffset = -8*3600 
+  
   # debut/fin sont des dates
   def initialize(debut, fin, employe = nil)
     @data = Array.new # array< heure, array< hash<act,#heures> > >
@@ -41,25 +43,40 @@ class MatriceHeures
     res
   end
   
+  # Retourne le total des heures travaillees pour une date
+  def total(date)
+    t = 0.0
+    @data.each do | hrData |
+      jourData = hrData[1][date.yday - @debut.yday];
+      unless jourData.nil?
+        jourData.each_value { | v | t += v }
+      end
+    end
+    t
+  end
   
   private
   
   def populate2
+    # Voir les commentaires dans Heure.rb
+    debutDb = @debut.to_time.beginning_of_day.getlocal(@@zoneoffset)
+    finDb = @fin.to_time.beginning_of_day.getlocal(@@zoneoffset)
+    
     if @employe_id.nil?
       recs = Heure.
         where("debut >= :minDateTime and debut < :endDateTime",
-          {:minDateTime => @debut, :endDateTime => @fin})
+          {:minDateTime => debutDb.to_s(:db), :endDateTime => finDb.to_s(:db)})
     else
       recs = Heure.
         joins('inner join feuilles as f on feuille_id = f.id').
         where('employe_id = :empl_id and debut >= :minDateTime and debut < :endDateTime',
-          {empl_id: @employe_id, minDateTime: @debut.to_time, endDateTime: @fin.to_time})
+          {empl_id: @employe_id, :minDateTime => debutDb.to_s(:db), :endDateTime => finDb.to_s(:db)})
     end
     
     recs.each do | hr |
-      hrDebT = hr.debut.to_time
+      hrDebT = hr.debut.getlocal(-4*3600)+4*3600
       hrFinT = hrDebT + hr.duree * 60
-      h = Time.utc(hr.debut.year, hr.debut.month, hr.debut.mday, hr.debut.hour, 0, 0)
+      h = hrDebT
       while (h < hrFinT) do
         # Get the data for this hour of the day
         @data << [h.hour, []] if @data.assoc(h.hour).nil?
