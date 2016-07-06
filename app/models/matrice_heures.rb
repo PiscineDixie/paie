@@ -76,7 +76,7 @@ class MatriceHeures
     recs.each do | hr |
       hrDebT = hr.debut.getlocal(-4*3600)+4*3600
       hrFinT = hrDebT + hr.duree * 60
-      h = hrDebT
+      h = hrDebT.at_beginning_of_hour
       while (h < hrFinT) do
         # Get the data for this hour of the day
         @data << [h.hour, []] if @data.assoc(h.hour).nil?
