@@ -79,7 +79,7 @@ class EmployeursController < ApplicationController
     copies = (params[:dest] == 'employe' ? 2 : 1)
     employeur = Employeur.find(params[:id])
     doc = Prawn::Document.new(:skip_page_creation => true, :margin => 0)
-    T4.renderMultiple(doc, Employe.employesActif, employeur, annee, copies)
+    T4.renderMultiple(doc, Employe.employesPayes(annee), employeur, annee, copies)
     send_data doc.render, :filename => 't4-' + annee.to_s + '.pdf', :type => 'application/pdf', :disposition => 'inline'
   end
   
@@ -89,7 +89,7 @@ class EmployeursController < ApplicationController
     annee = params[:annee].to_i
     employeur = Employeur.find(params[:id])
     doc = Prawn::Document.new(:skip_page_creation => true, :margin => 0, :page_size => 'LETTER')
-    RL1.renderMultiple(doc, Employe.employesActif, employeur, annee);
+    RL1.renderMultiple(doc, Employe.employesPayes(annee), employeur, annee);
     send_data doc.render, :filename => 'rl1-' + annee.to_s + '.pdf', :type => 'application/pdf', :disposition => 'inline'
   end
   

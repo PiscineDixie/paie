@@ -127,7 +127,15 @@ class Employe < ActiveRecord::Base
   def self.employesActif
     return Employe.where(etat: 'actif').order("nom, prenom")
   end
-  
+
+  def self.employesPayes(annee = Date.today.year)
+    debut = Date.civil(annee, 1, 1)
+    fin = debut.end_of_year
+    return Employe.where(id: Paie.joins(:periode).where(
+      "paies.brut > 0 and periodes.debut >= :minDate and periodes.debut <= :endDate", 
+       {minDate: debut.to_s(:db), endDate: fin.to_s(:db)}).select('employe_id').distinct);
+  end
+
   def self.call
     return Employe.order("nom, prenom")
   end
