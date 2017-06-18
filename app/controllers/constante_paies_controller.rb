@@ -76,9 +76,13 @@ class ConstantePaiesController < ApplicationController
   
   def constante_paie_params
     params.require(:constante_paie).permit(
-      :impFedK2, :impFedI3, :impFedR3, :impFedK3,
-      :impFedR4, :impFedK4, :deductionBaseFed, :impProvI1, :impProvT1, :impProvK1, :impProvI2,
-      :impProvT2, :impProvK2, :impProvT3, :impProvK3, :deductionBaseProv,
+      :impFedI1, :impFedR1, :impFedK1,
+      :impFedI2, :impFedR2, :impFedK2,
+      :impFedI3, :impFedR3, :impFedK3,
+      :impFedR4, :impFedK4, :deductionBaseFed,
+      :impProvI1, :impProvT1, :impProvK1,
+      :impProvI2, :impProvT2, :impProvK2,
+      :impProvT3, :impProvK3, :deductionBaseProv,
       :aeTauxEmploye, :aeMaximumEmploye, :aeMaximumGainAssurable, :aeTauxEmployeur,
       :rrqTauxEmploye, :rrqMaximumEmploye, :rrqTauxEmployeur, :rrqExemptionEmploye,
       :rqapTauxEmploye, :rqapMaximumEmploye, :rqapTauxEmployeur, 

@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619000119) do
+ActiveRecord::Schema.define(version: 20170618154826) do
 
   create_table "constante_paies", force: :cascade do |t|
     t.integer  "deductionBaseFed",       limit: 4
     t.integer  "impFedI1",               limit: 4,                         default: 0
     t.integer  "impFedI2",               limit: 4,                         default: 0
     t.integer  "impFedI3",               limit: 4,                         default: 0
-    t.decimal  "impFedR1",                         precision: 8, scale: 2, default: 0.0
-    t.decimal  "impFedR2",                         precision: 8, scale: 2, default: 0.0
-    t.decimal  "impFedR3",                         precision: 8, scale: 2, default: 0.0
-    t.decimal  "impFedR4",                         precision: 8, scale: 2, default: 0.0
+    t.decimal  "impFedR1",                         precision: 8, scale: 6, default: 0.0
+    t.decimal  "impFedR2",                         precision: 8, scale: 6, default: 0.0
+    t.decimal  "impFedR3",                         precision: 8, scale: 6, default: 0.0
+    t.decimal  "impFedR4",                         precision: 8, scale: 6, default: 0.0
     t.integer  "impFedK1",               limit: 4,                         default: 0
     t.integer  "impFedK2",               limit: 4,                         default: 0
     t.integer  "impFedK3",               limit: 4,                         default: 0
@@ -60,11 +60,11 @@ ActiveRecord::Schema.define(version: 20150619000119) do
     t.string   "adresse3",          limit: 255
     t.string   "nas",               limit: 255
     t.string   "courriel",          limit: 255
-    t.boolean  "courriel_sommaire", limit: 1,                           default: false
+    t.boolean  "courriel_sommaire",                                     default: false
     t.date     "naissance",                                                              null: false
     t.string   "etat",              limit: 255,                         default: "",     null: false
     t.decimal  "salaire_horaire",               precision: 8, scale: 2,                  null: false
-    t.boolean  "exempte_impot",     limit: 1,                           default: false
+    t.boolean  "exempte_impot",                                         default: false
     t.decimal  "exemption_fed",                 precision: 8, scale: 2, default: 9600.0, null: false
     t.decimal  "exemption_prov",                precision: 8, scale: 2, default: 9600.0, null: false
     t.datetime "created_at"
@@ -88,10 +88,10 @@ ActiveRecord::Schema.define(version: 20150619000119) do
   create_table "feuilles", force: :cascade do |t|
     t.integer  "employe_id",  limit: 4
     t.date     "periode"
-    t.boolean  "locked",      limit: 1, default: false
+    t.boolean  "locked",                default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "empl_locked", limit: 1, default: false
+    t.boolean  "empl_locked",           default: false
   end
 
   add_index "feuilles", ["employe_id", "periode"], name: "par_employe_periode", unique: true, using: :btree
@@ -136,20 +136,20 @@ ActiveRecord::Schema.define(version: 20150619000119) do
     t.date     "debut"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "ae_employeur",             precision: 8, scale: 2, default: 0.0
-    t.decimal  "rrq_employeur",            precision: 8, scale: 2, default: 0.0
-    t.decimal  "rqap_employeur",           precision: 8, scale: 2, default: 0.0
-    t.decimal  "fss_employeur",            precision: 8, scale: 2, default: 0.0
-    t.decimal  "csst_employeur",           precision: 8, scale: 2, default: 0.0
-    t.boolean  "locked",         limit: 1,                         default: false
+    t.decimal  "ae_employeur",   precision: 8, scale: 2, default: 0.0
+    t.decimal  "rrq_employeur",  precision: 8, scale: 2, default: 0.0
+    t.decimal  "rqap_employeur", precision: 8, scale: 2, default: 0.0
+    t.decimal  "fss_employeur",  precision: 8, scale: 2, default: 0.0
+    t.decimal  "csst_employeur", precision: 8, scale: 2, default: 0.0
+    t.boolean  "locked",                                 default: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "courriel",   limit: 255
     t.string   "nom",        limit: 255
     t.string   "roles",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["courriel"], name: "index_users_on_courriel", using: :btree
