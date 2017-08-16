@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170618154826) do
+ActiveRecord::Schema.define(version: 20170629004532) do
 
   create_table "constante_paies", force: :cascade do |t|
     t.integer  "deductionBaseFed",       limit: 4
@@ -70,6 +70,8 @@ ActiveRecord::Schema.define(version: 20170618154826) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "employes", ["courriel"], name: "employes_unique_courriel", unique: true, using: :btree
 
   create_table "employeurs", force: :cascade do |t|
     t.string   "nom",                limit: 255
@@ -153,5 +155,6 @@ ActiveRecord::Schema.define(version: 20170618154826) do
   end
 
   add_index "users", ["courriel"], name: "index_users_on_courriel", using: :btree
+  add_index "users", ["courriel"], name: "users_unique_courriel", unique: true, using: :btree
 
 end
