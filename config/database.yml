@@ -1,0 +1,19 @@
+default: &default
+  adapter: mysql2
+  username: <%= Rails.application.secrets[:db][:user] %>
+  password: <%= Rails.application.secrets[:db][:password] %>
+  host: localhost
+  encoding: utf8
+
+development:
+  database: paie_development
+  <<: *default
+
+test:
+  database: paie_test
+  <<: *default
+
+production:
+  database: paie_production
+  <<: *default
+  
