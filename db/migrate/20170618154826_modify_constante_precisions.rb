@@ -1,4 +1,4 @@
-class ModifyConstantePrecisions < ActiveRecord::Migration
+class ModifyConstantePrecisions < ActiveRecord::Migration[5.0]
   def change
     change_column :constante_paies, :impFedR1, :decimal, precision: 8, scale: 6
     change_column :constante_paies, :impFedR2, :decimal, precision: 8, scale: 6

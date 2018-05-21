@@ -29,10 +29,10 @@ class Periode < ActiveRecord::Base
   def pre_fill
     employes = Employe.employesActif
     
-    # Pour chaque employe, creer un objet Paie et le relier avec une feuille de paie si disponible
+    # Pour chaque employe, cree un objet Paie si inexistant
     employes.each do |empl|
-      if Paie.find_by("employe_id = ? and periode_id = ?", empl.id, self.id).nil?
-        self.paies.push(Paie.new(:employe_id => empl.id, :periode_id => self.id))
+      unless self.paies.exists?({employe_id: empl.id, periode_id: self.id})
+        self.paies << Paie.new(:employe_id => empl.id, :periode_id => self.id)
       end
     end
   end

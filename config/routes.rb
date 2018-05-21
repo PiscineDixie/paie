@@ -1,4 +1,4 @@
-Paieapp::Application.routes.draw do
+Rails.application.routes.draw do
   resources :constante_paies
   
 #  get 'feuilles_groupes/:date' => 'feuilles_groupes#show'

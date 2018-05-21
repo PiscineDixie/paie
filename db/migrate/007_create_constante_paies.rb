@@ -1,4 +1,4 @@
-class CreateConstantePaies < ActiveRecord::Migration
+class CreateConstantePaies < ActiveRecord::Migration[5.0]
   def self.up
     create_table :constante_paies do |t|
        

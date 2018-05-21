@@ -6,7 +6,7 @@ class Paie < ActiveRecord::Base
   
   belongs_to :periode
   belongs_to :employe
-  belongs_to :feuille
+  belongs_to :feuille, optional: true
   
   # Valider que le numero de cheque n'est pas trop eleve, ajuster si necessaire
   after_save :updNoCheque
@@ -73,11 +73,12 @@ class Paie < ActiveRecord::Base
   def tot_deductions
     return self.rrq + self.ae + self.rqap + self.impot_fed + self.impot_prov
   end
-#  
+  
   def employe_heures_upto
     return self.employe.heures_range(
       Date.civil(self.periode_debut.year, 1, 1), self.periode_end)
   end
+
   #
   # Fonctions pour extraire des totaux pour une plage de date
   #

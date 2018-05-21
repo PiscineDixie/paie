@@ -1,4 +1,4 @@
-class CreateFeuilles < ActiveRecord::Migration
+class CreateFeuilles < ActiveRecord::Migration[5.0]
   def self.up
     create_table :feuilles do |t|
       t.references :employe

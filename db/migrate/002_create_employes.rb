@@ -1,4 +1,4 @@
-class CreateEmployes < ActiveRecord::Migration
+class CreateEmployes < ActiveRecord::Migration[5.0]
   def self.up
     create_table :employes do |t|
       t.string  :nom,     :null => false

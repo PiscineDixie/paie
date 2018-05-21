@@ -25,7 +25,7 @@ class PeriodesController < ApplicationController
         @periodes[date] = Periode.new({debut: date})
       end
     end
-    @periodes = @periodes.values
+    @periodes = @periodes.sort.to_h.values
   end
   
   def annees
@@ -51,8 +51,6 @@ class PeriodesController < ApplicationController
   # GET /periodes/1/edit
   def edit
     @periode = Periode.find(params[:id])
-    @periode.pre_fill
-    @periode.linkPaiesToFeuilles
   end
 
   # POST /periodes
@@ -64,14 +62,17 @@ class PeriodesController < ApplicationController
       return;
     end
     
+    # On cree la periode ainsi que les objets paie pour chaque employe actif
     date = Date.parse(params[:debut])
     @periode = Periode.new(:debut => date)
-
+    @periode.save!
+    @periode.pre_fill
+    @periode.linkPaiesToFeuilles
     if @periode.save
       flash[:notice] = 'Période de paie créée.'
       redirect_to edit_periode_path(@periode)
     else
-      render :action => "new"
+      redirect_to(periodes_url)
     end
   end
 
@@ -81,15 +82,24 @@ class PeriodesController < ApplicationController
     @periode = Periode.find(params[:id])
 
     if (params[:cancel])
-      redirect_to(periodes_url)
+      redirect_to(@periode)
       return;
     end
     
-    if Paie.update(params[:paie].keys, params[:paie].values)
+    erreur = false
+    params[:paie].values.each do |po|
+      # po = po.permit(:cheque_no, :remb_depense, :ajustement_heures, :autre_gain_imposable, :note)
+      paie = Paie.find(po[:id])
+      unless paie.update(po)
+        erreur = true
+      end
+    end
+    
+    if erreur
+      redirect_to edit_periode_path(@periode)
+    else
       flash[:notice] = 'Période de paie modifiée.'
       redirect_to(@periode)
-    else
-      render :action => "edit"
     end
   end
 
@@ -166,6 +176,6 @@ class PeriodesController < ApplicationController
   
   private
   def periode_params
-    params.pemit(:id, :periode)
+    params.permit(:id, :periode)
   end
 end

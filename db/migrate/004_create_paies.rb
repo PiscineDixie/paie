@@ -1,4 +1,4 @@
-class CreatePaies < ActiveRecord::Migration
+class CreatePaies < ActiveRecord::Migration[5.0]
   def self.up
     create_table :paies do |t|
       t.references :employe

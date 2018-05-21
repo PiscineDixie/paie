@@ -1,4 +1,4 @@
-class AddCsst < ActiveRecord::Migration
+class AddCsst < ActiveRecord::Migration[5.0]
   def self.up
     add_column :periodes, :csst_employeur, :decimal, :precision => 8, :scale => 2, :default => 0
     add_column :constante_paies, :csstTauxEmployeur, :decimal, :precision => 8, :scale => 6, :default => 0

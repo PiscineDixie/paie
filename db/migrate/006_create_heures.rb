@@ -1,4 +1,4 @@
-class CreateHeures < ActiveRecord::Migration
+class CreateHeures < ActiveRecord::Migration[5.0]
   def self.up
     create_table :heures do |t|
       t.references :feuille, :null => false

@@ -2,9 +2,12 @@
 # Controller pour faire le login/logout des usagers
 #
 class SessionsController < ApplicationController
+  # This avoids CSRF checking when posting the auth code
+  skip_before_action :verify_authenticity_token, :only => [:create]
+    
   def create
     reset_session
-    auth = env['omniauth.auth']
+    auth = request.env['omniauth.auth']
     user = User.omniauth(auth)
     provider = params['provider'].split('_')[0]
       

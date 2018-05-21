@@ -1,4 +1,4 @@
-class CreatePeriodes < ActiveRecord::Migration
+class CreatePeriodes < ActiveRecord::Migration[5.0]
   def self.up
     create_table :periodes do |t|
       t.date :debut

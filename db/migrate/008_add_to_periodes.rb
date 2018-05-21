@@ -1,4 +1,4 @@
-class AddToPeriodes < ActiveRecord::Migration
+class AddToPeriodes < ActiveRecord::Migration[5.0]
   def self.up
     add_column :periodes, :ae_employeur, :decimal, :precision => 8, :scale => 2, :default => 0
     add_column :periodes, :rrq_employeur, :decimal, :precision => 8, :scale => 2, :default => 0
