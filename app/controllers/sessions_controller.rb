@@ -3,7 +3,7 @@
 #
 class SessionsController < ApplicationController
   # This avoids CSRF checking when posting the auth code
-  skip_before_action :verify_authenticity_token, :only => [:create]
+  skip_before_action :verify_authenticity_token, :only => [:create, :reject]
     
   def create
     reset_session

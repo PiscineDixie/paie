@@ -138,4 +138,11 @@ class Heure < ActiveRecord::Base
     s += ":" + m.to_s unless m == 0;
     s
   end
+  
+  # Vrai si les meme proprietes en oubliant les liens db
+  def same?(other)
+    self.debut == other.debut and 
+    self.duree == other.duree and 
+    self.activite == other.activite
+  end
 end

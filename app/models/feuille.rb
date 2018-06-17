@@ -22,7 +22,7 @@ class Feuille < ActiveRecord::Base
   validate :validations
   
   def validations
-    Feuille::heuresValidations(self, self.heures)
+    self.heuresValidations(self.heures)
   end
   
   after_create :after_create_f
@@ -43,8 +43,28 @@ class Feuille < ActiveRecord::Base
     return res
   end
 
+  # Remplacer les heures par un object existant de la db lorsque present.
+  # heures: array[Heure]
+  def replaceWithDbHeures(heures)
+    res = Array.new
+    heures.each do | h |
+      trouve = false
+      self.heures.each do | dbh |
+        if dbh.same?(h)
+          res << dbh
+          trouve = true
+          break;
+        end
+      end
+      unless trouve
+        h.feuille = self
+        res << h
+      end
+    end
+    return res
+  end
 
-  # Retourne une array of Hashes d'Heure pour chacun des blocs d'heures de la string d'une journee
+  # Retourne une array of Heure pour chacun des blocs d'heures de la string d'une journee
   # La date est la date des heures
   def self.jourStrToHeures(date, jStr)
     res = Array.new
@@ -103,13 +123,14 @@ class Feuille < ActiveRecord::Base
     return @jourVar
   end
         
+
   # Helper function to check that the array of Heure passes all validations
-  def self.heuresValidations(model, hrs)
+  def heuresValidations(hrs)
     ok = true
     hrs.each do | h |
       h.valid? if h.errors.empty?
       h.errors.each do | attr, msg |
-        model.errors[:base] << msg;
+        self.errors[:base] << msg;
         ok = false;
       end
     end
@@ -117,7 +138,7 @@ class Feuille < ActiveRecord::Base
     # Verifier que les heures ne se chevauchent pas
     invHr = Feuille::testHeureOverlap(hrs)
     unless invHr.nil?
-     model.errors[:base] << "Heure #{invHr.to_s} chevauche l'heure précédente";
+     self.errors[:base] << "Heure #{invHr.to_s} chevauche l'heure précédente";
      ok = false
     end
     return ok

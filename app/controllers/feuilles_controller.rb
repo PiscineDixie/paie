@@ -72,7 +72,8 @@ class FeuillesController < ApplicationController
     end
     
     heures = Feuille.getHeures(@feuille.periode, params[:feuille][:jours])
-    if Feuille.heuresValidations(@feuille, heures)
+    heures = @feuille.replaceWithDbHeures(heures)
+    if @feuille.heuresValidations(heures)
       @feuille.heures = heures;
       flash[:notice] = 'Feuille de temps mise à jour.'
       backToFeuilleGroupe(@feuille.periode)

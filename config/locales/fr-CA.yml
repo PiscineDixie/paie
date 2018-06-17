@@ -4,6 +4,11 @@ fr:
     errors:
       messages:
         record_invalid: 'La validation a échoué : %{errors}'
+      template:
+        header:
+          one: 'Une erreur empêche la sauvegarde de %{model}'
+          other: '%{count} erreurs empêchent la sauvegarde de %{model}'
+        body: 'Les champs suivants sont invalides:'
   date:
     abbr_day_names:
     - dim
