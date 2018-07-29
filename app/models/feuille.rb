@@ -107,7 +107,7 @@ class Feuille < ActiveRecord::Base
     (0...(Employeur.instance.semaines_par_paie * 7)).each { |i| res[i.to_s] = "" }
     hs = self.heures.order(:debut)
     hs.each do |h|
-      debut = h.debut.in_time_zone
+      debut = h.debut.in_time_zone(Rails.application.config.time_zone)
       s = h.activite + '-' + debut.strftime('%H:%M') +'-' + h.duree.div(60).to_s + ':' + sprintf("%02d, ", h.duree.modulo(60))
       d = debut.to_date - self.periode
       res[d.to_i.to_s] << s

@@ -6,7 +6,7 @@
 
 class RapportActivites
   attr_reader :employe_id # Optionel. Sinon tous les employes
-  attr_reader :debut, :fin
+  attr_reader :debut, :fin # Dates
   attr_reader :data 
   
   # Debut/fin: Des dates de debut du rapport et de fin
@@ -19,7 +19,9 @@ class RapportActivites
     @data = Array.new # array of array [ code, nom, heures]. 
     
     # Obtenir un hash { code d'activite => # heures }
-    codeHrs = Heure.heuresTravaillees(debut.to_time, fin.to_time, employe)
+    codeHrs = Heure.heuresTravaillees(
+        Time.zone.parse(debut.to_s), Time.zone.parse(fin.to_s),
+        employe)
     
     # Convertir le hash en un vecteur avec le code, le nom de l'activite
     # (au lieu du code) et le nombre d'heures

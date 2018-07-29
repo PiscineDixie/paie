@@ -39,7 +39,7 @@ class Heure < ActiveRecord::Base
   end
   
   validates_each :debut do |model, attr, value|
-    value = value.in_time_zone
+    value = value.in_time_zone(Rails.application.config.time_zone)
     if value.hour < 6
       model.errors.add(attr, "Début de l'activité ne peut pas être avant 6:00 heures pour #{model.to_s}")
     elsif value.hour > 22
@@ -96,12 +96,12 @@ class Heure < ActiveRecord::Base
     res.each do | x, y|
       res.store(x, y/60.0)
     end
-    res;
+    return res
   end
   
   # Retourner une liste des employes qui ont travailles
-  # @param debut (Time) pour le debut
-  # @param fin (Time) pour la fin
+  # @param debut (TimeWithZone) pour le debut
+  # @param fin (TimeWithZone) pour la fin
   # @return Array<{}>
   def self.auTravail(debut, fin)
     # Sortir les heures
@@ -113,7 +113,7 @@ class Heure < ActiveRecord::Base
       pluck("e.prenom", "e.nom", "heures.activite", "heures.debut", "heures.duree")
       
     res = hrs.each_with_object([]) do | h, r|
-      hDeb = h[3].in_time_zone
+      hDeb = h[3].in_time_zone(Rails.application.config.time_zone)
       next if hDeb > fin || hDeb + 60 * h[4] <= debut 
       nom = h[0] + ' ' + h[1]
       hr = {nom: nom, activite: h[2], debut: hDeb, duree: h[4]}
@@ -125,7 +125,7 @@ class Heure < ActiveRecord::Base
   end
   
   def to_s
-    d = self.debut.in_time_zone
+    d = self.debut.in_time_zone(Rails.application.config.time_zone)
     s = d.to_date.to_s(:db) + " " + self.activite + "-" + d.strftime("%k:%M").lstrip + '-';
     h = self.duree / 60
     s += h.to_s

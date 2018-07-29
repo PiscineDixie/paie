@@ -56,8 +56,8 @@ class MatriceHeures
   private
   
   def populate2
-    debutDb = @debut.to_time.beginning_of_day.utc
-    finDb = @fin.to_time.beginning_of_day.utc
+    debutDb = Time.zone.parse(@debut.to_s).utc
+    finDb = Time.zone.parse(@fin.to_s).utc
     
     if @employe_id.nil?
       recs = Heure.
@@ -71,7 +71,7 @@ class MatriceHeures
     end
     
     recs.each do | hr |
-      hrDebT = hr.debut.in_time_zone
+      hrDebT = hr.debut.in_time_zone(Rails.application.config.time_zone)
       hrFinT = hrDebT + hr.duree * 60
       h = hrDebT.at_beginning_of_hour
       while (h < hrFinT) do
