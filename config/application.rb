@@ -20,8 +20,7 @@ module Paieapp
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', "**", '*.{rb,yml}').to_s]
     config.i18n.default_locale = :fr
 
-    # Much simpler to store all times with local time to avoid shifts that span days
-    config.active_record.default_timezone = :local
-
+    config.active_record.default_timezone = :utc
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end

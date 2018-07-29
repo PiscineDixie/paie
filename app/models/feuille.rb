@@ -82,9 +82,9 @@ class Feuille < ActiveRecord::Base
       
       # Convertir le debut et la duree de l'activite.
       begin
-        startDate = DateTime.parse(date.to_s(:db) + ' ' + startStr+':00')
+        startDate = Time.zone.parse(date.to_s(:db) + ' ' + startStr+':00')
       rescue ArgumentError
-        startDate = DateTime.parse(date.to_s(:db) + ' 0:00')
+        startDate = Time.zone.parse(date.to_s(:db) + ' 0:00')
       end
       
       lengthMinutes = 0
@@ -94,7 +94,7 @@ class Feuille < ActiveRecord::Base
       rescue ArgumentError
       end
       
-      res << Heure.new({:activite => activity, :debut => startDate, :duree => lengthMinutes})
+      res << Heure.new({:activite => activity, :debut => startDate.utc, :duree => lengthMinutes})
     end
     return res
   end
@@ -107,8 +107,9 @@ class Feuille < ActiveRecord::Base
     (0...(Employeur.instance.semaines_par_paie * 7)).each { |i| res[i.to_s] = "" }
     hs = self.heures.order(:debut)
     hs.each do |h|
-      s = h.activite + '-' + h.debut.strftime('%H:%M') +'-' + h.duree.div(60).to_s + ':' + sprintf("%02d, ",h.duree.modulo(60))
-      d = h.debut.to_date - self.periode
+      debut = h.debut.in_time_zone
+      s = h.activite + '-' + debut.strftime('%H:%M') +'-' + h.duree.div(60).to_s + ':' + sprintf("%02d, ", h.duree.modulo(60))
+      d = debut.to_date - self.periode
       res[d.to_i.to_s] << s
     end
     res.each { |j| j.slice!(-2..-1) unless j.empty? }  # remove trailing ", "

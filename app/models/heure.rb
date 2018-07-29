@@ -16,8 +16,6 @@
 #
 class Heure < ActiveRecord::Base
   
-  @@zoneoffset = -8*3600 
-  
 #  attr_accessible :activite, :debut, :duree
   
   belongs_to :feuille
@@ -41,9 +39,8 @@ class Heure < ActiveRecord::Base
   end
   
   validates_each :debut do |model, attr, value|
-    if (value.hour == 0)
-      model.errors.add(attr, "Début de l'activité est invalide pour #{model.to_s}.")
-    elsif value.hour < 6
+    value = value.in_time_zone
+    if value.hour < 6
       model.errors.add(attr, "Début de l'activité ne peut pas être avant 6:00 heures pour #{model.to_s}")
     elsif value.hour > 22
       model.errors.add(attr, "Début de l'activité ne peut pas être après 22:00 heures pour #{model.to_s}")
@@ -64,31 +61,30 @@ class Heure < ActiveRecord::Base
     
     # Extraire de la db tous les records pour l'interval donnee. Il faut
     # commencer au debut de la journee puisqu'il faut considerer la duree
-    debutJour = debut.beginning_of_day.getlocal(@@zoneoffset)
-    finT = fin.getlocal(@@zoneoffset)
     if employe.nil?
       recs = Heure.where("debut >= :minDateTime and debut < :endDateTime",
-          {:minDateTime => debutJour.to_s(:db), :endDateTime => fin.to_s(:db)})
+          {:minDateTime => debut.beginning_of_day.utc.to_s(:db), :endDateTime => fin.utc.to_s(:db)})
     else
       recs = Heure.
         joins('inner join feuilles as f on feuille_id = f.id').
         where('employe_id = :empl_id and debut >= :minDateTime and debut < :endDateTime',
-          {:empl_id => employe, :minDateTime => debutJour.to_s(:db), :endDateTime => fin.to_s(:db)})
+          {:empl_id => employe, :minDateTime => debut.beginning_of_day.utc.to_s(:db), :endDateTime => fin.utc.to_s(:db)})
     end
     
-    debutT = debut.getlocal(@@zoneoffset)
+    debutUtc = debut.utc
+    finUtc = fin.utc
+    
     recs.each do | hr |
-      hrDebT = hr.debut.getlocal(-4*3600)+4*3600
-      hrFinT = hrDebT + hr.duree * 60
+      hrFinUtc = hr.debut + hr.duree * 60
       duree = 0
-      if hrDebT >= debutT && hrFinT < finT then  # comprise dans l'interval
-        duree = hrFinT - hrDebT
-      elsif hrDebT <= debutT && hrFinT >= finT then # plus grand que l'interval
-        duree = finT - debutT
-      elsif hrDebT < finT && hrFinT > finT then  # se termine apres l'interval
-        duree = finT - hrDebT
-      elsif hrDebT < debutT && hrFinT > debutT then # commence avant
-        duree = hrFinT - debutT
+      if hr.debut >= debutUtc && hrFinUtc < finUtc then  # comprise dans l'interval
+        duree = hr.duree * 60
+      elsif hr.debut <= debutUtc && hrFinUtc >= finUtc then # plus grand que l'interval
+        duree = finUtc - debutUtc
+      elsif hr.debut < finUtc && hrFinUtc >= finUtc then  # se termine apres l'interval
+        duree = finUtc - hr.debut
+      elsif hr.debut < debutUtc && hrFinUtc > debutUtc then # commence avant
+        duree = hrFinUtc - debutUtc
       end
       res[hr.activite] = res[hr.activite] + duree / 60.0 unless duree == 0
     end
@@ -109,17 +105,15 @@ class Heure < ActiveRecord::Base
   # @return Array<{}>
   def self.auTravail(debut, fin)
     # Sortir les heures
-    debutJour = debut.beginning_of_day.getlocal(@@zoneoffset)
-    finT = fin.getlocal(@@zoneoffset)
     hrs = Heure.
       joins("inner join feuilles as f on f.id = feuille_id").
       joins("left join employes as e on e.id = f.employe_id").
       where('debut >= :minDateTime and debut < :endDateTime',
-        {:minDateTime => debutJour.to_s(:db), :endDateTime => finT.to_s(:db)}).
+        {:minDateTime => debut.beginning_of_day.utc.to_s(:db), :endDateTime => fin.utc.to_s(:db)}).
       pluck("e.prenom", "e.nom", "heures.activite", "heures.debut", "heures.duree")
       
     res = hrs.each_with_object([]) do | h, r|
-      hDeb = h[3].getlocal(-4*3600)+4*3600
+      hDeb = h[3].in_time_zone
       next if hDeb > fin || hDeb + 60 * h[4] <= debut 
       nom = h[0] + ' ' + h[1]
       hr = {nom: nom, activite: h[2], debut: hDeb, duree: h[4]}
@@ -131,7 +125,8 @@ class Heure < ActiveRecord::Base
   end
   
   def to_s
-    s = self.debut.to_date.to_s(:db) + " " + self.activite + "-" + self.debut.strftime("%k:%M").lstrip + '-';
+    d = self.debut.in_time_zone
+    s = d.to_date.to_s(:db) + " " + self.activite + "-" + d.strftime("%k:%M").lstrip + '-';
     h = self.duree / 60
     s += h.to_s
     m = self.duree % 60

@@ -10,8 +10,6 @@ class MatriceHeures
   attr_reader :employe_id # Optionel. Sinon tous les employes
   attr_reader :debut, :fin # des objects Date
   
-  @@zoneoffset = -8*3600 
-  
   # debut/fin sont des dates
   def initialize(debut, fin, employe = nil)
     @data = Array.new # array< heure, array< hash<act,#heures> > >
@@ -58,9 +56,8 @@ class MatriceHeures
   private
   
   def populate2
-    # Voir les commentaires dans Heure.rb
-    debutDb = @debut.to_time.beginning_of_day.getlocal(@@zoneoffset)
-    finDb = @fin.to_time.beginning_of_day.getlocal(@@zoneoffset)
+    debutDb = @debut.to_time.beginning_of_day.utc
+    finDb = @fin.to_time.beginning_of_day.utc
     
     if @employe_id.nil?
       recs = Heure.
@@ -74,7 +71,7 @@ class MatriceHeures
     end
     
     recs.each do | hr |
-      hrDebT = hr.debut.getlocal(-4*3600)+4*3600
+      hrDebT = hr.debut.in_time_zone
       hrFinT = hrDebT + hr.duree * 60
       h = hrDebT.at_beginning_of_hour
       while (h < hrFinT) do
@@ -101,6 +98,5 @@ class MatriceHeures
     end
     @data.sort! { |x,y| x[0] <=> y[0] }
   end
-  
   
  end

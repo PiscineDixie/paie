@@ -8,6 +8,13 @@ class Paie < ActiveRecord::Base
   belongs_to :employe
   belongs_to :feuille, optional: true
   
+  #after_initialize :init
+  def init
+    if self.autre_gain_imposable.nil?
+      self.autre_gain_imposable = 0
+    end
+  end
+  
   # Valider que le numero de cheque n'est pas trop eleve, ajuster si necessaire
   after_save :updNoCheque
   def updNoCheque
