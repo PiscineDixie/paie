@@ -74,6 +74,7 @@ Rails.application.routes.draw do
   
   post 'auth/:provider/callback', to: 'sessions#create'
   post 'auth/failure', to: 'sessions#reject'
+  get 'auth/failure', to: 'sessions#reject'
   get 'signout', to: 'sessions#destroy', as: 'signout'
   
   # The priority is based upon order of creation:
