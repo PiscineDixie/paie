@@ -1,7 +1,7 @@
 # coding: utf-8
 # Classe pour les donnees permanente et annuelles d'un employe
 #
-class Employe < ActiveRecord::Base
+class Employe < ApplicationRecord
     
   # Le ownership des feuilles et des paies est a l'employe.
   has_many :feuilles, :dependent => :destroy
@@ -44,7 +44,7 @@ class Employe < ActiveRecord::Base
   def feuilles_range(debut, fin)
     Feuille.
        where("employe_id = :id and periode >= :debut and periode <= :fin", 
-        { :id => self.id, :debut => debut.to_s(:db), :fin => fin.to_s(:db)}).
+        { :id => self.id, :debut => debut.to_formatted_s(:db), :fin => fin.to_formatted_s(:db)}).
        order(:periode)
   end
   
@@ -52,7 +52,7 @@ class Employe < ActiveRecord::Base
   def paies_range_query(debut, fin)
     Paie.joins('inner join periodes on periodes.id = paies.periode_id').
           where("employe_id = :empl_id and debut >= :minDate and debut <= :endDate", 
-            {:empl_id => self.id, :minDate => debut.to_s(:db), :endDate => fin.to_s(:db)})
+            {:empl_id => self.id, :minDate => debut.to_formatted_s(:db), :endDate => fin.to_formatted_s(:db)})
   end
   
   # Method pour faire la somme d'une colonne pour un intervalle
@@ -75,7 +75,7 @@ class Employe < ActiveRecord::Base
     sum = Heure.
       joins('inner join feuilles on feuilles.id = heures.feuille_id').
       where("employe_id = :empl_id and debut >= :minDate and debut < :endDate",
-        {:empl_id => self.id, :minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).
+        {:empl_id => self.id, :minDate => debut.to_formatted_s(:db), :endDate => fin.to_formatted_s(:db)}).
       sum(:duree)
     return sum / 60.0
   end
@@ -117,7 +117,7 @@ class Employe < ActiveRecord::Base
     fin = debut.end_of_year
     Paie.joins('inner join periodes on periodes.id = paies.periode_id').
          where("employe_id = :empl_id and debut >= :minDate and debut <= :endDate and rrq > 0", 
-            {:empl_id => self.id, :minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).sum(:brut)
+            {:empl_id => self.id, :minDate => debut.to_formatted_s(:db), :endDate => fin.to_formatted_s(:db)}).sum(:brut)
   end
   
   def rqap_annuel(annee = Date.today.year)
@@ -133,7 +133,7 @@ class Employe < ActiveRecord::Base
     fin = debut.end_of_year
     return Employe.where(id: Paie.joins(:periode).where(
       "paies.brut > 0 and periodes.debut >= :minDate and periodes.debut <= :endDate", 
-       {minDate: debut.to_s(:db), endDate: fin.to_s(:db)}).select('employe_id').distinct);
+       {minDate: debut.to_formatted_s(:db), endDate: fin.to_formatted_s(:db)}).select('employe_id').distinct);
   end
 
   def self.call

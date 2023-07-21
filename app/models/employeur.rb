@@ -1,7 +1,7 @@
 # coding: utf-8
 # Classe pour les donnees d'un employeur
 #
-class Employeur < ActiveRecord::Base
+class Employeur < ApplicationRecord
   # Les champs pour un employeur:
   #  nom, adresse1,2,3, numero_entreprise
   #  debut_paie
@@ -33,7 +33,7 @@ class Employeur < ActiveRecord::Base
     Paie.
       joins('inner join periodes on periodes.id = paies.periode_id').
       where("debut >= :minDate and debut <= :endDate", 
-        {:minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).
+        {:minDate => debut.to_formatted_s(:db), :endDate => fin.to_formatted_s(:db)}).
       sum(colonne)
   end
   
@@ -51,7 +51,7 @@ class Employeur < ActiveRecord::Base
     sum = Heure.
       joins('inner join feuilles on feuilles.id = heures.feuille_id').
       where("debut >= :minDate and debut < :endDate",
-        {:minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).
+        {:minDate => debut.to_formatted_s(:db), :endDate => fin.to_formatted_s(:db)}).
       sum(:duree)
     return sum / 60.0
   end

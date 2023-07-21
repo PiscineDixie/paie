@@ -2,7 +2,7 @@
 # Model des constantes de pour la calcul des retenues de paies
 #
 
-class ConstantePaie < ActiveRecord::Base
+class ConstantePaie < ApplicationRecord
   
   def self.instance
     return ConstantePaie.take

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require 'transactionsgl.rb'
+require 'Transactionsgl.rb'
 
 class PeriodesController < ApplicationController
 
@@ -30,7 +30,7 @@ class PeriodesController < ApplicationController
   
   def annees
     an = params[:an].to_i
-    @periodes = Periode.where("debut >= :start and debut < :fin", {:start => Date.new(an, 1, 1), :fin => Date.new(an+1, 1, 1)})
+    @periodes = Periode.where("debut >= :start and debut < :fin", {start: Date.new(an, 1, 1), fin: Date.new(an+1, 1, 1)})
     render :action => 'index'
   end
   
@@ -64,7 +64,7 @@ class PeriodesController < ApplicationController
     
     # On cree la periode ainsi que les objets paie pour chaque employe actif
     date = Date.parse(params[:debut])
-    @periode = Periode.new(:debut => date)
+    @periode = Periode.new(debut: date)
     @periode.save!
     @periode.pre_fill
     @periode.linkPaiesToFeuilles
@@ -130,7 +130,7 @@ class PeriodesController < ApplicationController
     else
       @periode.paies.each { |paie| Cheque.render(doc, paie) }
     end
-    send_data doc.render, :filename => 'cheques-' + @periode.debut.to_s(:db) + '.pdf', :type => 'application/pdf', :disposition => 'inline'
+    send_data doc.render, :filename => 'cheques-' + @periode.debut.to_formatted_s(:db) + '.pdf', :type => 'application/pdf', :disposition => 'inline'
     
     # Impossible de changer apres  impression des cheques
     @periode.locked = true;

@@ -14,7 +14,7 @@
 # a le timezone UTC. On change donc le timezone et on ajouter 4hr pour obtenir
 # une heure valide.
 #
-class Heure < ActiveRecord::Base
+class Heure < ApplicationRecord
   
 #  attr_accessible :activite, :debut, :duree
   
@@ -63,12 +63,12 @@ class Heure < ActiveRecord::Base
     # commencer au debut de la journee puisqu'il faut considerer la duree
     if employe.nil?
       recs = Heure.where("debut >= :minDateTime and debut < :endDateTime",
-          {:minDateTime => debut.beginning_of_day.utc.to_s(:db), :endDateTime => fin.utc.to_s(:db)})
+          {:minDateTime => debut.beginning_of_day.utc.to_formatted_s(:db), :endDateTime => fin.utc.to_formatted_s(:db)})
     else
       recs = Heure.
         joins('inner join feuilles as f on feuille_id = f.id').
         where('employe_id = :empl_id and debut >= :minDateTime and debut < :endDateTime',
-          {:empl_id => employe, :minDateTime => debut.beginning_of_day.utc.to_s(:db), :endDateTime => fin.utc.to_s(:db)})
+          {:empl_id => employe, :minDateTime => debut.beginning_of_day.utc.to_formatted_s(:db), :endDateTime => fin.utc.to_formatted_s(:db)})
     end
     
     debutUtc = debut.utc
@@ -109,7 +109,7 @@ class Heure < ActiveRecord::Base
       joins("inner join feuilles as f on f.id = feuille_id").
       joins("left join employes as e on e.id = f.employe_id").
       where('debut >= :minDateTime and debut < :endDateTime',
-        {:minDateTime => debut.beginning_of_day.utc.to_s(:db), :endDateTime => fin.utc.to_s(:db)}).
+        {:minDateTime => debut.beginning_of_day.utc.to_formatted_s(:db), :endDateTime => fin.utc.to_formatted_s(:db)}).
       pluck("e.prenom", "e.nom", "heures.activite", "heures.debut", "heures.duree")
       
     res = hrs.each_with_object([]) do | h, r|
@@ -126,7 +126,7 @@ class Heure < ActiveRecord::Base
   
   def to_s
     d = self.debut.in_time_zone(Rails.application.config.time_zone)
-    s = d.to_date.to_s(:db) + " " + self.activite + "-" + d.strftime("%k:%M").lstrip + '-';
+    s = d.to_date.to_formatted_s(:db) + " " + self.activite + "-" + d.strftime("%k:%M").lstrip + '-';
     h = self.duree / 60
     s += h.to_s
     m = self.duree % 60

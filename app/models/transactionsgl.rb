@@ -1,7 +1,7 @@
 # coding: utf-8
 # Modele pour les transactions dans le grand livre pour une periode de paie
 #
-class TransactionsGL
+class Transactionsgl
   
   attr_reader :brut
   attr_reader :net

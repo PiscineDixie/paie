@@ -20,11 +20,6 @@ class EmployeursController < ApplicationController
   # GET /employeurs/new.xml
   def new
     @employeur = Employeur.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @employeur }
-    end
   end
 
   # GET /employeurs/1/edit
@@ -37,15 +32,11 @@ class EmployeursController < ApplicationController
   def create
     @employeur = Employeur.new(employeur_params())
 
-    respond_to do |format|
-      if @employeur.save
-        flash[:notice] = 'Employeur was successfully created.'
-        format.html { redirect_to(@employeur) }
-        format.xml  { render :xml => @employeur, :status => :created, :location => @employeur }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @employeur.errors, :status => :unprocessable_entity }
-      end
+    if @employeur.save
+      flash[:notice] = 'Employeur was successfully created.'
+      redirect_to(@employeur)
+    else
+      render :action => "new"
     end
   end
 
@@ -59,15 +50,11 @@ class EmployeursController < ApplicationController
       return;
     end
     
-    respond_to do |format|
-      if @employeur.update_attributes(employeur_params())
-        flash[:notice] = 'Employeur was successfully updated.'
-        format.html { redirect_to(@employeur) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @employeur.errors, :status => :unprocessable_entity }
-      end
+    if @employeur.update(employeur_params())
+      flash[:notice] = 'Employeur was successfully updated.'
+      redirect_to(@employeur)
+    else
+      render :action => "edit" 
     end
   end
 

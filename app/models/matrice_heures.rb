@@ -62,12 +62,12 @@ class MatriceHeures
     if @employe_id.nil?
       recs = Heure.
         where("debut >= :minDateTime and debut < :endDateTime",
-          {:minDateTime => debutDb.to_s(:db), :endDateTime => finDb.to_s(:db)})
+          {:minDateTime => debutDb.to_formatted_s(:db), :endDateTime => finDb.to_formatted_s(:db)})
     else
       recs = Heure.
         joins('inner join feuilles as f on feuille_id = f.id').
         where('employe_id = :empl_id and debut >= :minDateTime and debut < :endDateTime',
-          {empl_id: @employe_id, :minDateTime => debutDb.to_s(:db), :endDateTime => finDb.to_s(:db)})
+          {empl_id: @employe_id, :minDateTime => debutDb.to_formatted_s(:db), :endDateTime => finDb.to_formatted_s(:db)})
     end
     
     recs.each do | hr |

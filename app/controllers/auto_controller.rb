@@ -29,7 +29,7 @@ class AutoController < ApplicationController
     now = Date.today
     dates.each do | date |
       if !@feuilles.has_key?(date) && date <= now
-        @feuilles[date] = Feuille.new({:employe_id => @employe.id, :periode => date.to_s(:db)})
+        @feuilles[date] = Feuille.new({:employe_id => @employe.id, :periode => date.to_formatted_s(:db)})
       end
     end
   end

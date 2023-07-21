@@ -2,17 +2,16 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_29_135345) do
-
-  create_table "constante_paies", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2023_07_19_160754) do
+  create_table "constante_paies", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "deductionBaseFed"
     t.integer "impFedI1", default: 0
     t.integer "impFedI2", default: 0
@@ -46,12 +45,12 @@ ActiveRecord::Schema.define(version: 2018_07_29_135345) do
     t.decimal "rqapMaximumEmploye", precision: 8, scale: 2, default: "0.0"
     t.integer "aeMaximumGainAssurable", default: 0
     t.decimal "rrqExemptionEmploye", precision: 8, scale: 2, default: "0.0"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "csstTauxEmployeur", precision: 8, scale: 6, default: "0.0"
   end
 
-  create_table "employes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "employes", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "nom", default: "", null: false
     t.string "prenom", default: "", null: false
     t.string "adresse1"
@@ -66,12 +65,12 @@ ActiveRecord::Schema.define(version: 2018_07_29_135345) do
     t.boolean "exempte_impot", default: false
     t.decimal "exemption_fed", precision: 8, scale: 2, default: "9600.0", null: false
     t.decimal "exemption_prov", precision: 8, scale: 2, default: "9600.0", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["courriel"], name: "employes_unique_courriel", unique: true
   end
 
-  create_table "employeurs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "employeurs", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "nom"
     t.string "adresse1"
     t.string "adresse2"
@@ -81,32 +80,32 @@ ActiveRecord::Schema.define(version: 2018_07_29_135345) do
     t.date "fin_paie"
     t.integer "semaines_par_paie"
     t.integer "prochain_no_cheque"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
-  create_table "feuilles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "feuilles", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "employe_id"
     t.date "periode"
     t.boolean "locked", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "empl_locked", default: false
     t.index ["employe_id", "periode"], name: "par_employe_periode", unique: true
   end
 
-  create_table "heures", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "heures", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "feuille_id", null: false
     t.string "activite", default: "", null: false
-    t.datetime "debut", null: false
+    t.datetime "debut", precision: nil, null: false
     t.integer "duree", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["debut"], name: "par_debut"
     t.index ["feuille_id", "debut"], name: "par_feuille_debut", unique: true
   end
 
-  create_table "paies", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "paies", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "employe_id"
     t.integer "periode_id"
     t.integer "feuille_id"
@@ -123,16 +122,16 @@ ActiveRecord::Schema.define(version: 2018_07_29_135345) do
     t.decimal "impot_fed", precision: 8, scale: 2, default: "0.0"
     t.decimal "impot_prov", precision: 8, scale: 2, default: "0.0"
     t.string "note"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["employe_id", "periode_id"], name: "par_employe_periode", unique: true
     t.index ["periode_id"], name: "par_periode"
   end
 
-  create_table "periodes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "periodes", id: :integer, charset: "utf8", force: :cascade do |t|
     t.date "debut"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "ae_employeur", precision: 8, scale: 2, default: "0.0"
     t.decimal "rrq_employeur", precision: 8, scale: 2, default: "0.0"
     t.decimal "rqap_employeur", precision: 8, scale: 2, default: "0.0"
@@ -141,12 +140,12 @@ ActiveRecord::Schema.define(version: 2018_07_29_135345) do
     t.boolean "locked", default: false
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "courriel"
     t.string "nom"
     t.string "roles"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["courriel"], name: "index_users_on_courriel"
     t.index ["courriel"], name: "users_unique_courriel", unique: true
   end

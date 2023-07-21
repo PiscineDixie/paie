@@ -13,12 +13,12 @@ class FeuilleGroupe
     @debut = debut
     
     # Allez chercher les feuilles de temps deja existantes
-    @feuilles = Feuille.where("periode = ?", debut.to_s(:db)).to_a
+    @feuilles = Feuille.where("periode = ?", debut.to_formatted_s(:db)).to_a
     
     # Ensuite ajouter des feuilles de temps pour les employes
     employes = Employe::employesActif
     employes.each do | empl |
-      if Feuille.find_by("employe_id = ? and periode = ?", empl.id, @debut.to_s(:db)).nil?
+      if Feuille.find_by("employe_id = ? and periode = ?", empl.id, @debut.to_formatted_s(:db)).nil?
         feuille = Feuille.new({:employe_id => empl.id, :periode => @debut})
         @feuilles << feuille
       end

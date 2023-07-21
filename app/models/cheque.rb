@@ -7,7 +7,7 @@ class Cheque
   def self.render(doc, paie)
     unless paie.total == 0
       doc.start_new_page
-      doc.draw_text Date.today.to_s(:db), :at => [450, 700]
+      doc.draw_text Date.today.to_formatted_s(:db), :at => [450, 700]
       doc.draw_text "***" + number_to_currency(paie.total), :at => [450, 650], :style => :bold
       doc.draw_text paie.montant_alphabetique, :at => [170, 650], :size => 14
       doc.bounding_box([35, 625], :width => 200) do

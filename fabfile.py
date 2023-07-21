@@ -14,13 +14,15 @@ def backup(c):
 @task
 def deploy(c):
     c.sudo("rm -rf paieapp")
-    c.local("rsync -vv -a --delete --exclude='vendor/*' --exclude='.git/*' --exclude=log/development.log  --exclude='tmp/*' . %s@%s:paieapp" % (c.user, c.host))
-    c.run("cd paieapp && bundle install --deployment --path vendor/bundle")
-    c.run("cd paieapp && RAILS_ENV=production bin/rails assets:precompile")
-    c.run("cd paieapp && RAILS_ENV=production bundle exec rake db:migrate")
-    c.sudo("chown -R apache:apache paieapp")
+    c.run("git clone https://github.com/PiscineDixie/paie.git")
+    c.local("rsync ./config/secrets.yml %s@%s:paie/config/." % (c.user, c.host))
+    c.run("cd paie && BUNDLE_DEPLOYMENT=1 BUNDLE_WITHOUT=development bundle install")
+    c.run("cd paie && RAILS_ENV=production bin/rails assets:precompile")
+    c.run("cd paie && RAILS_ENV=production bundle exec rake db:migrate")
+    c.run("rm -rf paie/.git")
+    c.sudo("chown -R apache:apache paie")
     c.sudo("rm -rf /var/www/paieapp")
-    c.sudo("mv paieapp /var/www/.")
+    c.sudo("mv paie /var/www/paieapp")
     c.sudo("systemctl reload httpd")
-    c.run("wget http://localhost:8083/ -o /dev/null -O /dev/null")
+    c.run("wget https://apps.piscinedixiepool:8483/ -o /dev/null -O /dev/null")
     pass

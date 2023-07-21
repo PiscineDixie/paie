@@ -11,7 +11,10 @@ class Activite
     'N' => 'Equipe natation', 'NC' => 'Equipe natation - Compétition',
     'F' => 'Formation', 'AD' => 'Admin',
     'Y' => 'Synchro', 'YC' => 'Synchro - Compétition',
-    'LD' => 'Leaders'
+    'AC' => 'Accueil',
+    'LD' => 'Leaders',
+    'YO' => 'Yoga',
+    'ZU' => 'Zumba'
    }
    
    # Retourne le nom de l'activite etant donne le code

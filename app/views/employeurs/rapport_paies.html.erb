@@ -27,7 +27,7 @@
   <tbody>
   
 <% ps = Periode.where("debut >= :minDate and debut <= :endDate", 
-        {:minDate => @debut.to_s(:db), :endDate => @fin.to_s(:db)}).order(:debut) %>
+        {:minDate => @debut.to_formatted_s(:db), :endDate => @fin.to_formatted_s(:db)}).order(:debut) %>
 <% ps.each do | p | %>
   <tr>
     <td><%=p.debut %>

@@ -2,14 +2,18 @@
 # Controller pour faire le login/logout des usagers
 #
 class SessionsController < ApplicationController
-  # This avoids CSRF checking when posting the auth code
-  skip_before_action :verify_authenticity_token, :only => [:create, :reject]
     
   def create
-    reset_session
-    auth = request.env['omniauth.auth']
-    user = User.omniauth(auth)
-    provider = params['provider'].split('_')[0]
+
+    if id_token = flash[:google_sign_in][:id_token]
+      id = GoogleSignIn::Identity.new(id_token)
+      user = User.from_courriel(id.email_address)
+      if user.nil?
+        flash[:notice] = "Accès refusé à #{id.email_address}."
+      end
+    elsif error = flash[:google_sign_in][:error]
+      flash[:notice] = "Accès refusé par Google: #{error}."
+    end
       
     if user != nil && user.roles == 'employe'
       e = Employe.find_by_courriel(user.courriel)
@@ -22,7 +26,6 @@ class SessionsController < ApplicationController
     end
     
     if user.nil?
-      flash[:notice] = "Accès refusé à #{auth.info.email}."
       redirect_to root_url
       return;
     end
@@ -35,13 +38,6 @@ class SessionsController < ApplicationController
       redirect_to instructions_url
     end
     
-  end
-  
-  def reject
-    reset_session
-    msg = params[:msg]
-    flash[:notice] = "Accès refusé: #{msg}"
-    redirect_to root_url
   end
 
   def destroy

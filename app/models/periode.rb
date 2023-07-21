@@ -4,7 +4,7 @@
 
 require 'calcule_paie'
 
-class Periode < ActiveRecord::Base
+class Periode < ApplicationRecord
   
 #  attr_accessible :debut
   
@@ -194,7 +194,7 @@ class Periode < ActiveRecord::Base
   def self.total(debut, fin, colonne)
     Periode.
       where("debut >= :minDate and debut <= :endDate", 
-        {:minDate => debut.to_s(:db), :endDate => fin.to_s(:db)}).
+        {:minDate => debut.to_formatted_s(:db), :endDate => fin.to_formatted_s(:db)}).
       sum(colonne)
   end
   

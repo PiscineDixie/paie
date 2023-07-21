@@ -1,5 +1,5 @@
 # coding: utf-8
-class Paie < ActiveRecord::Base
+class Paie < ApplicationRecord
   
 #  attr_accessible :cheque_no, :remb_depense, :ajustement_heures, :autre_gain_imposable
 #  attr_accessible :employe_id, :periode_id, :note
@@ -95,7 +95,7 @@ class Paie < ActiveRecord::Base
   def self.total_colonne(debut, fin, colonne)
     sum = Paie.count_by_sql(
       sprintf("select sum(%s) from paies as t inner join periodes as p on t.periode_id = p.id where (debut >= '%s' and debut <= '%s')",
-        colonne, debut.to_s(:db), fin.to_s(:db)))
+        colonne, debut.to_formatted_s(:db), fin.to_formatted_s(:db)))
     sum.nil? ? 0 : sum
   end
 end

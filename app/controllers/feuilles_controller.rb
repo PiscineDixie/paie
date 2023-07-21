@@ -102,7 +102,7 @@ class FeuillesController < ApplicationController
   
   def backToFeuilleGroupe(periode)
     if @employe.nil?
-      redirect_to(:controller => '/feuille_groupes', :action => 'show', :id => periode.to_s(:db))
+      redirect_to(:controller => '/feuille_groupes', :action => 'show', :id => periode.to_formatted_s(:db))
     else
       redirect_to '/'
     end

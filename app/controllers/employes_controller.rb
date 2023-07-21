@@ -47,7 +47,7 @@ class EmployesController < ApplicationController
     
     @employe = Employe.new(employe_params)
 
-      if @employe.save
+    if @employe.save
       flash[:notice] = 'Employé créé.'
       redirect_to(@employe)
     else

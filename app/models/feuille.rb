@@ -2,7 +2,7 @@
 # Feuille de temps pour une periode de paie
 # Peut etre associe a un objet "paie" pour fournir les heures travaillees
 #
-class Feuille < ActiveRecord::Base
+class Feuille < ApplicationRecord
   
   # Ceci est un hash de la forme: { "0"=>"S-15:30-3", "1" => "S-15:30-3, S-20:30-1" }
   # Variable local qui est convertie en "heures" dans la db
@@ -82,9 +82,9 @@ class Feuille < ActiveRecord::Base
       
       # Convertir le debut et la duree de l'activite.
       begin
-        startDate = Time.zone.parse(date.to_s(:db) + ' ' + startStr+':00')
+        startDate = Time.zone.parse(date.to_formatted_s(:db) + ' ' + startStr+':00')
       rescue ArgumentError
-        startDate = Time.zone.parse(date.to_s(:db) + ' 0:00')
+        startDate = Time.zone.parse(date.to_formatted_s(:db) + ' 0:00')
       end
       
       lengthMinutes = 0
