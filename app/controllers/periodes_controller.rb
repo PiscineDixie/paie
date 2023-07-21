@@ -1,6 +1,6 @@
 # coding: utf-8
 
-require 'Transactionsgl.rb'
+require 'transactionsgl.rb'
 
 class PeriodesController < ApplicationController
 
@@ -149,7 +149,7 @@ class PeriodesController < ApplicationController
   def gl
     @periode = Periode.find(params[:id])
     @periode.linkPaiesToFeuilles
-    @gl = TransactionsGL.new(@periode) 
+    @gl = Transactionsgl.new(@periode) 
   end
 
   # Generer un rapport des retenues gouvernementales pour les periodes donnee
