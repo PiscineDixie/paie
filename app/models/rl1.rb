@@ -8,7 +8,7 @@
 
 require "prawn/measurement_extensions"
 
-class RL1
+class Rl1
   
   # doc: PDF document opened to which we add
   # employes: Les employes pour lequels on veut ecrire un RL1
