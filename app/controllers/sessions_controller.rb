@@ -26,6 +26,8 @@ class SessionsController < ApplicationController
     end
     
     if user.nil?
+      session[:user] = nil
+      session[:employe] = nil
       redirect_to root_url
       return;
     end

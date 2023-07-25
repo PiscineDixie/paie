@@ -4,11 +4,14 @@ require 'matrice_heures'
 class FeuillesController < ApplicationController
   
   before_action :set_auto_employe
+
   def set_auto_employe
     @employe = nil
-    return true if User.hasAdminPriviledge(session[:user])
+    return if User.hasAdminPriviledge(session[:user])
     @employe = Employe.find_by_id(session[:employe])
-    return @employe != nil
+    return if @employe
+    flash[:notice] = "Vous devez faire un login."
+    redirect_to root_url
   end
   
   class InvalideUserFeuille < StandardError

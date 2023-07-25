@@ -4,10 +4,9 @@ class PaiesController < ApplicationController
   # Use the common layout for all controllers
   layout "paie"
 
-  before_action :load_deps
   before_action :check_admin
-  
-  
+  before_action :load_deps
+
   def load_deps
     @periode = Periode.find(params[:periode_id])
   end

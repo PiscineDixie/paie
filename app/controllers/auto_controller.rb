@@ -13,7 +13,9 @@ class AutoController < ApplicationController
   # Filtre pour s'assurer que l'employe a fait le login
   def authenticate
     @employe = Employe.find_by_id(session[:employe] || 0)
-    return @employe != nil
+    return if @employe
+    flash[:notice] = "Vous devez faire un login."
+    redirect_to root_url
   end
   
   def index

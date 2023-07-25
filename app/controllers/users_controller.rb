@@ -3,11 +3,6 @@ class UsersController < ApplicationController
   
   before_action :check_admin
   
-  def authenticate
-    return true if User.count.zero?
-    self.check_admin
-  end
-  
   # Use the common layout for all controllers
   layout "paie"
   
